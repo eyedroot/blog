@@ -18,16 +18,18 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: record of byzz
+title: "PHP IS NOT DEAD: PHP의 진정한 가치를 발견하는 곳"
 email: eyedroot@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://binbyz.github.io/blog" # the base hostname & protocol for your site, e.g. http://example.com
+  이곳은 PHP의 잠재력을 탐구하고, 이 강력한 언어의 다양한 면모를 탐색하는 허브입니다.
+  PHP는 단순히 오래된 스크립트 언어가 아닙니다. 이것은 웹 개발의 기초이며, 수많은 혁신적인 애플리케이션과 웹사이트의 핵심입니다. 
+  저는 PHP를 사랑하며, 이 블로그를 통해 그 사랑을 여러분과 나누고자 합니다.
+baseurl: "/blog" # the subpath of your site, e.g. /blog
+url: "https://binbyz.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: eyedroot
 github_username:  binbyz
+
+lang: ko
 
 # Build settings
 theme: minima
