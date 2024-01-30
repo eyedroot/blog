@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "PHP IS NOT DEAD: PHP의 진정한 가치를 발견하는 곳"
+title: "PHP Still Alive: PHP Tips & Tricks"
 email: eyedroot@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   이곳은 PHP의 잠재력을 탐구하고, 이 강력한 언어의 다양한 면모를 탐색하는 허브입니다.
