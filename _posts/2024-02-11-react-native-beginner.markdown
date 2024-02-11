@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "ReactNative Hooks"
+title:  "React Native Hooks"
 date:   2024-02-11 15:24:00 +0900
-categories: ReactNative
+categories: React Native
 ---
 ## React Native Hook Basic
 

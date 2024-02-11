@@ -1,0 +1,47 @@
+---
+layout: post
+title:  "React Native, JSX"
+date:   2024-02-11 17:07:00 +0900
+categories: React Native
+---
+
+```typescript
+<TextInput
+  value={text}
+  style={styles.input}
+  placeholder={working ? 'Add a To Do' : 'Where do you want to go?'}
+  returnKeyType="done"
+  secureTextEntry={false}
+  multiline={false}
+  placeholderTextColor={theme.grey}
+  onChangeText={onChangeText}
+  onSubmitEditing={onSubmit}
+/>
+```
+
+갑자기 위의 코드를 보고 인지부조화가 왔습니다다.
+
+- `value={text}` "여기서 brace(`{`, `}`)는 갑자기 왜 있는거지?"
+- "함수의 본문을 작성할때 사용된 문법과 동일한가?" 
+
+오랜만에 백엔드 개발을 하다가 자바스크립트 진영으로 넘어오면 가끔 이런 인지부조화가 옵니다.
+
+## 왜 `value=text`로 작성하면 안되는가?
+
+JSX에서 속성을 지정할 때 `value=text`와 같이 작성하면, `text`를 문자열 리터럴로 인식하기 때문에 문제가 발생합니다. 자바스크립트의 표현식의 값을 속성에 전달하려면 `{}`를 사용해야 합니다. `{}` 안에 작성된 코드는 자바스크립트의 표현식으로 평가되고, 그 결과가 해당 속성의 값으로 사용됩니다. 따라서 `value={text}` 는 `text` 변수의 현재 값을 `value` 속성에 바인딩 하려면 필수적인 문법입니다.
+
+## 실제 컴파일된 자바스크립트 코드는 어떻게 되는가?
+
+JSX 코드가 트랜스파일 과정을 거치면, React의 createElement 함수 호출로 변환된다. 예를 들어, JSX에서 다음과 같이 작성된 코드
+
+```typescript
+<TextInput value={text} />
+```
+
+트랜스파일 후의 자바스크립트 코드는 대략 다음과 같다.
+
+```Typescript
+React.createElement(TextInput, { value: text }, null);
+```
+
+이와 같이 JSX 문법을 사용하는 것은 React 요소를 생성하는 과정을 보다 선언적이고 직관적으로 만들어 주지만, 실제로는 `React.createElement` 함수 호출로 변환되어 JavaScript 엔진이 이해할 수 있는 코드로 실행됩니다. 따라서 JSX에서 `{}`를 사용하는 것은 JavaScript 표현식을 통해 **동적인 값을 컴포넌트의 속성으로 전달**할 수 있게 하는 중요한 문법적 기능입니다.
