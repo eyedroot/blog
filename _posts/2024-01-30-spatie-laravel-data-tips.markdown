@@ -2,7 +2,7 @@
 layout: post
 title:  "spatie/laravel-data 데이터 객체 복제"
 date:   2024-01-30 13:12:00 +0900
-categories: laravel
+categories: Laravel
 ---
 오픈소스 개발 회사 **spatie**에서 개발된 [laravel-data](https://spatie.be/docs/laravel-data/v3/introduction) 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 **laravel-data**를 소개하고 있습니다.
 
