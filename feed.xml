@@ -1,4 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-11T07:25:34+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">PHP Still Alive: PHP Tips &amp;amp; Tricks</title><subtitle>이곳은 PHP의 잠재력을 탐구하고, 이 강력한 언어의 다양한 면모를 탐색하는 허브입니다. PHP는 단순히 오래된 스크립트 언어가 아닙니다. 이것은 웹 개발의 기초이며, 수많은 혁신적인 애플리케이션과 웹사이트의 핵심입니다.  저는 PHP를 사랑하며, 이 블로그를 통해 그 사랑을 여러분과 나누고자 합니다.</subtitle><entry><title type="html">ReactNative Hooks</title><link href="https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner.html" rel="alternate" type="text/html" title="ReactNative Hooks" /><published>2024-02-11T06:24:00+00:00</published><updated>2024-02-11T06:24:00+00:00</updated><id>https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner</id><content type="html" xml:base="https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner.html"><![CDATA[<h2 id="react-native-hook-basic">React Native Hook Basic</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-11T08:27:26+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">React Native, JSX</title><link href="https://binbyz.github.io//blog/react/native/2024/02/11/jsx.html" rel="alternate" type="text/html" title="React Native, JSX" /><published>2024-02-11T08:07:00+00:00</published><updated>2024-02-11T08:07:00+00:00</updated><id>https://binbyz.github.io//blog/react/native/2024/02/11/jsx</id><content type="html" xml:base="https://binbyz.github.io//blog/react/native/2024/02/11/jsx.html"><![CDATA[<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">TextInput</span>
+  <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span>
+  <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">input</span><span class="p">}</span>
+  <span class="nx">placeholder</span><span class="o">=</span><span class="p">{</span><span class="nx">working</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">Add a To Do</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">Where do you want to go?</span><span class="dl">'</span><span class="p">}</span>
+  <span class="nx">returnKeyType</span><span class="o">=</span><span class="dl">"</span><span class="s2">done</span><span class="dl">"</span>
+  <span class="nx">secureTextEntry</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span>
+  <span class="nx">multiline</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span>
+  <span class="nx">placeholderTextColor</span><span class="o">=</span><span class="p">{</span><span class="nx">theme</span><span class="p">.</span><span class="nx">grey</span><span class="p">}</span>
+  <span class="nx">onChangeText</span><span class="o">=</span><span class="p">{</span><span class="nx">onChangeText</span><span class="p">}</span>
+  <span class="nx">onSubmitEditing</span><span class="o">=</span><span class="p">{</span><span class="nx">onSubmit</span><span class="p">}</span>
+<span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>갑자기 위의 코드를 보고 인지부조화가 왔습니다다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">value={text}</code> “여기서 brace(<code class="language-plaintext highlighter-rouge">{</code>, <code class="language-plaintext highlighter-rouge">}</code>)는 갑자기 왜 있는거지?”</li>
+  <li>“함수의 본문을 작성할때 사용된 문법과 동일한가?”</li>
+</ul>
+
+<p>오랜만에 백엔드 개발을 하다가 자바스크립트 진영으로 넘어오면 가끔 이런 인지부조화가 옵니다.</p>
+
+<h2 id="왜-valuetext로-작성하면-안되는가">왜 <code class="language-plaintext highlighter-rouge">value=text</code>로 작성하면 안되는가?</h2>
+
+<p>JSX에서 속성을 지정할 때 <code class="language-plaintext highlighter-rouge">value=text</code>와 같이 작성하면, <code class="language-plaintext highlighter-rouge">text</code>를 문자열 리터럴로 인식하기 때문에 문제가 발생합니다. 자바스크립트의 표현식의 값을 속성에 전달하려면 <code class="language-plaintext highlighter-rouge">{}</code>를 사용해야 합니다. <code class="language-plaintext highlighter-rouge">{}</code> 안에 작성된 코드는 자바스크립트의 표현식으로 평가되고, 그 결과가 해당 속성의 값으로 사용됩니다. 따라서 <code class="language-plaintext highlighter-rouge">value={text}</code> 는 <code class="language-plaintext highlighter-rouge">text</code> 변수의 현재 값을 <code class="language-plaintext highlighter-rouge">value</code> 속성에 바인딩 하려면 필수적인 문법입니다.</p>
+
+<h2 id="실제-컴파일된-자바스크립트-코드는-어떻게-되는가">실제 컴파일된 자바스크립트 코드는 어떻게 되는가?</h2>
+
+<p>JSX 코드가 트랜스파일 과정을 거치면, React의 createElement 함수 호출로 변환된다. 예를 들어, JSX에서 다음과 같이 작성된 코드</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">TextInput</span> <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>트랜스파일 후의 자바스크립트 코드는 대략 다음과 같다.</p>
+
+<pre><code class="language-Typescript">React.createElement(TextInput, { value: text }, null);
+</code></pre>
+
+<p>이와 같이 JSX 문법을 사용하는 것은 React 요소를 생성하는 과정을 보다 선언적이고 직관적으로 만들어 주지만, 실제로는 <code class="language-plaintext highlighter-rouge">React.createElement</code> 함수 호출로 변환되어 JavaScript 엔진이 이해할 수 있는 코드로 실행됩니다. 따라서 JSX에서 <code class="language-plaintext highlighter-rouge">{}</code>를 사용하는 것은 JavaScript 표현식을 통해 <strong>동적인 값을 컴포넌트의 속성으로 전달</strong>할 수 있게 하는 중요한 문법적 기능입니다.</p>]]></content><author><name></name></author><category term="React" /><category term="Native" /><summary type="html"><![CDATA[&lt;TextInput value={text} style={styles.input} placeholder={working ? 'Add a To Do' : 'Where do you want to go?'} returnKeyType="done" secureTextEntry={false} multiline={false} placeholderTextColor={theme.grey} onChangeText={onChangeText} onSubmitEditing={onSubmit} /&gt;]]></summary></entry><entry><title type="html">React Native Hooks</title><link href="https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner.html" rel="alternate" type="text/html" title="React Native Hooks" /><published>2024-02-11T06:24:00+00:00</published><updated>2024-02-11T06:24:00+00:00</updated><id>https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner</id><content type="html" xml:base="https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner.html"><![CDATA[<h2 id="react-native-hook-basic">React Native Hook Basic</h2>
 
 <h3 id="useeffect">useEffect</h3>
 
@@ -40,7 +78,7 @@ toDos.key = newValue;
 
 // 올바른 예: 새로운 객체를 생성하여 상태 업데이트
 setToDos({ key: newValue });
-</code></pre>]]></content><author><name></name></author><category term="ReactNative" /><summary type="html"><![CDATA[React Native Hook Basic]]></summary></entry><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
+</code></pre>]]></content><author><name></name></author><category term="React" /><category term="Native" /><summary type="html"><![CDATA[React Native Hook Basic]]></summary></entry><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
 
 <blockquote>
   <p>Powerful data objects for laravel</p>
