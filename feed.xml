@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-01-30T05:47:16+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">PHP Still Alive: PHP Tips &amp;amp; Tricks</title><subtitle>이곳은 PHP의 잠재력을 탐구하고, 이 강력한 언어의 다양한 면모를 탐색하는 허브입니다. PHP는 단순히 오래된 스크립트 언어가 아닙니다. 이것은 웹 개발의 기초이며, 수많은 혁신적인 애플리케이션과 웹사이트의 핵심입니다.  저는 PHP를 사랑하며, 이 블로그를 통해 그 사랑을 여러분과 나누고자 합니다.</subtitle><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-11T07:25:34+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">PHP Still Alive: PHP Tips &amp;amp; Tricks</title><subtitle>이곳은 PHP의 잠재력을 탐구하고, 이 강력한 언어의 다양한 면모를 탐색하는 허브입니다. PHP는 단순히 오래된 스크립트 언어가 아닙니다. 이것은 웹 개발의 기초이며, 수많은 혁신적인 애플리케이션과 웹사이트의 핵심입니다.  저는 PHP를 사랑하며, 이 블로그를 통해 그 사랑을 여러분과 나누고자 합니다.</subtitle><entry><title type="html">ReactNative Hooks</title><link href="https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner.html" rel="alternate" type="text/html" title="ReactNative Hooks" /><published>2024-02-11T06:24:00+00:00</published><updated>2024-02-11T06:24:00+00:00</updated><id>https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner</id><content type="html" xml:base="https://binbyz.github.io//blog/reactnative/2024/02/11/react-native-beginner.html"><![CDATA[<h2 id="react-native-hook-basic">React Native Hook Basic</h2>
+
+<h3 id="useeffect">useEffect</h3>
+
+<pre><code class="language-Typescript">useEffect(() =&gt; {
+    loadTodos();
+}, []);
+</code></pre>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">useEffect</code> 훅을 사용하여 컴포넌트가 마운트될 때(즉, 화면에 처음으로 렌더링될 때) <code class="language-plaintext highlighter-rouge">loadToDos()</code> 함수를 실행한다.</li>
+  <li>두 번째 인자는 의존성 배열로, 이 배열의 값에 따라 부수 효과의 실행 시점이 결정된다.
+    <ul>
+      <li>예를들어 <code class="language-plaintext highlighter-rouge">[todos]</code>와 같이 상태 변수를 배열에 포함시키면, <code class="language-plaintext highlighter-rouge">todos</code> 상태가 변경될 때마다 함수가 실행된다.</li>
+      <li>하지만 여기서는 사용된 빈 배열이므로 컴포넌트가 마운트될 때만 함수를 실행하고, 그 이후에는 실행되지 않도록 함으로써 초기 데이터 로딩 같은 용도로 자주 사용된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="usestate">useState</h3>
+
+<pre><code class="language-Typescript">const [toDos, setToDos] = useState&lt;ToDo&gt;({});
+</code></pre>
+
+<ul>
+  <li>위의 <code class="language-plaintext highlighter-rouge">toDos</code>와 같은 <strong>상태 변수</strong>는 직접적으로 변경할 수 없는 <strong>불변(immutable)</strong> 상태로 취급된다.
+    <ul>
+      <li>React에서 상태 관리는 불변성을 유지하면서 이루어져야 한다. 이는 React가 효율적으로 UI를 업데이트할 수 있도록 돕는다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">setToDos</code>는 상태를 업데이트하는 함수이다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">toDos</code>의 값을 직접 변경하는 것이 아니라, 상태를 업데이트할 필요가 있을 때는 항상 <code class="language-plaintext highlighter-rouge">setToDos</code> 함수를 사용하여 새로운 상태 값을 전달해야 한다. (React의 상태 불변성 원칙)</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-Typescript">// 잘못된 예: 상태를 직접 변경
+toDos.key = newValue;
+
+// 올바른 예: 새로운 객체를 생성하여 상태 업데이트
+setToDos({ key: newValue });
+</code></pre>]]></content><author><name></name></author><category term="ReactNative" /><summary type="html"><![CDATA[React Native Hook Basic]]></summary></entry><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
 
 <blockquote>
   <p>Powerful data objects for laravel</p>
@@ -228,4 +270,4 @@
 
 <h2 id="마치며">마치며</h2>
 
-<p>어디까지나 라이브러리를 채택하고 사용하고는 선택사항입니다. 라라벨을 경험하신지 얼마 되지 않으셨으면 라라벨 본래의 기능을 한 번 접하시고 라이브러리를 사용하시길 권장합니다. 그리고 위의 작성된 방법과 비교하고 어떤 부분이 우리 팀에 더 적합한 방법이 될지 고민해 보시길 바랍니다.</p>]]></content><author><name></name></author><category term="laravel" /><summary type="html"><![CDATA[오픈소스 개발 회사 spatie에서 개발된 laravel-data 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 laravel-data를 소개하고 있습니다.]]></summary></entry></feed>
+<p>어디까지나 라이브러리를 채택하고 사용하고는 선택사항입니다. 라라벨을 경험하신지 얼마 되지 않으셨으면 라라벨 본래의 기능을 한 번 접하시고 라이브러리를 사용하시길 권장합니다. 그리고 위의 작성된 방법과 비교하고 어떤 부분이 우리 팀에 더 적합한 방법이 될지 고민해 보시길 바랍니다.</p>]]></content><author><name></name></author><category term="Laravel" /><summary type="html"><![CDATA[오픈소스 개발 회사 spatie에서 개발된 laravel-data 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 laravel-data를 소개하고 있습니다.]]></summary></entry></feed>
