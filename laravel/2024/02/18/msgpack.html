@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>MessagePack | byzz’s programming note</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="MessagePack" />
+<meta property="og:locale" content="ko" />
+<meta name="description" content="개요" />
+<meta property="og:description" content="개요" />
+<link rel="canonical" href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" />
+<meta property="og:url" content="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" />
+<meta property="og:site_name" content="byzz’s programming note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-18T10:11:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MessagePack" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-02-18T10:11:00+00:00","datePublished":"2024-02-18T10:11:00+00:00","description":"개요","headline":"MessagePack","mainEntityOfPage":{"@type":"WebPage","@id":"https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"},"url":"https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://binbyz.github.io//blog/feed.xml" title="byzz&apos;s programming note" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">byzz&#39;s programming note</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">MessagePack</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-02-18T10:11:00+00:00" itemprop="datePublished">Feb 18, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="개요">개요</h2>
+
+<p>라라벨 애플리케이션에서 <code class="language-plaintext highlighter-rouge">curl</code>를 통해 대량의 <code class="language-plaintext highlighter-rouge">json_encode</code>된 데이터를 전송하는 케이스가 있었다. 객체나 배열 자체를 클라이언트에서 Inspect 할 수 있는 오픈소스 라이브러리(<a href="https://phpgg.kr/">phpgg.kr</a>)인데 가령 객체 자체차 크거나 여러개의 객체가 중첩된 경우 메모리 할당량을 초과하여 발생하는 문제였다. 라라벨의 <code class="language-plaintext highlighter-rouge">dump()</code>, <code class="language-plaintext highlighter-rouge">dd()</code> 헬퍼 함수들은 이런 문제를 해결하기 위해 중첩된 객체의 사이즈가 너무 크면 잘라서 무효화 시키는 방법으로 데이터를 보여주었다. 나는 최대한 있는 그대로 내가 보고싶은 데이터를 잘림 없이 보여주고 싶었다.</p>
+
+<h2 id="해결책">해결책</h2>
+
+<p><code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 데이터를 전송하는게 가장 큰 비용이 발생하여 이를 압축된 바이너리(binary) 데이터로 전송하고자 한다. 바이너리로 전송하는 방법으로는 가장 쉽게 접근할 수 있는 방법으로 아래 두 가지가있다.</p>
+
+<ol>
+  <li><strong>Protocol Buffers</strong>
+    <ul>
+      <li>Protocol Buffer(Protobuf)는 구글에서 개발한 언어 중립적이고 플랫폼 독립적인 데이터 직렬화 도구이지만, 학습 곡선이 어느정도 존재한다. 장점으로는 <code class="language-plaintext highlighter-rouge">.proto</code> 파일을 통해 구조를 정의하면 이를 다양한 프로그래밍 언어로 변환할 수 있는 코드를 자동으로 생성할 수 있다.</li>
+    </ul>
+  </li>
+  <li><strong>Message Pack</strong>
+    <ul>
+      <li>MessagePack 포맷은 JSON과 유사한 스키마리스(schema-less) 데이터 교환 포맷이지만, 이진 형식을 사용하기 때문에 텍스트 기반의 JSON 보다 크기가 작고 처리 속도가 빠르다는 특징을 가지고 있다.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>두 가지 방법 중 쉽고 빠르게 적용가능한 <strong>MessagePack</strong>을 통해 압축된 바이너리 데이터를 적용해보자.</p>
+
+<h2 id="messagepack-적용">MessagePack 적용</h2>
+
+<h3 id="의존성-설치">의존성 설치</h3>
+
+<pre><code class="language-Shell">composer require rybakit/msgpack
+</code></pre>
+
+<p>먼저 MessagePack 압축 알고리즘을 사용하기 위해 아래의 라이브러리를 추가한다. 해당 라이브러리는 php 모듈이 따로 설치돼 있지 않아도 소스단에서 사용할 수 있게 구현된 라이브러리이다. (물론 직접 php 모듈을 통해 설치하면 퍼포먼스가 더 상승할 것이다)</p>
+
+<h3 id="코드-적용">코드 적용</h3>
+
+<p>나는 http <code class="language-plaintext highlighter-rouge">curl</code>를 통해 바이너리 데이터를 전송할 생각이기 때문에 아래의 코드와 같이 <code class="language-plaintext highlighter-rouge">CURLOPT_HTTPHEADER</code>를 <code class="language-plaintext highlighter-rouge">application/x-msgpack</code>으로 수정해 주었고, <code class="language-plaintext highlighter-rouge">MessagePack::pack($cunk);</code> 코드를 통해 인코딩을 간단히 진행한다.</p>
+
+<pre><code class="language-PHP">&lt;?php
+
+namespace Beaverlabs\Gg;
+
+use Rybakit\MessagePack\MessagePack;
+
+class Gg
+{
+    // 기존 메서드와 프로퍼티는 유지
+
+    private function sendData(): void
+    {
+        $endpoint = $this-&gt;getEndpoint();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
+        // MessagePack 컨텐츠 타입 설정
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-msgpack']);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        while (!empty($this-&gt;buffer)) {
+            $chunk = array_splice($this-&gt;buffer, 0, self::BUFFER_CHUNK_SIZE);
+            // 데이터를 MessagePack 형식으로 인코딩
+            $encodedData = MessagePack::pack($chunk);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            curl_exec($ch);
+        }
+
+        curl_close($ch);
+    }
+}
+</code></pre>
+<p><a href="https://github.com/binbyz/gg/blob/03fc1664e5f1831d6c70e45250ed61ff780cc43f/src/Gg.php#L147">전체 소스 보기</a></p>
+
+<h3 id="데이터-받기클라이언트">데이터 받기(클라이언트)</h3>
+
+<p>클라이언트는 <strong>electron</strong>으로 작성돼 있고, http 서버로는 <strong>express</strong>를 사용 중이였다. 클라이언트에서도 <strong>MessagePack</strong>으로 인코딩된 데이터를 받아 디코딩을 진행하기 위해 아래의 추가적인 의존성을 설치하고,</p>
+
+<pre><code class="language-Shell">npm install @msgpack/msgpack
+</code></pre>
+
+<p>미들웨어단에서 아래와 같은 헤더타입을 정의해준다.</p>
+
+<pre><code class="language-Typescript">// MessagePack 데이터를 위한 미들웨어 설정
+app.use(express.raw({ type: 'application/x-msgpack', limit: '128mb' }));
+</code></pre>
+
+<p>그리고 데이터를 받아 아래와 같이 디코딩을 진행한다.</p>
+
+<pre><code class="language-Typescript">const { decode } = require('@msgpack/msgpack');
+
+app.post('/data', (req, res) =&gt; {
+  try {
+    // MessagePack 데이터 디코딩
+    const data = decode(req.body);
+
+    console.log(data);
+    res.send({ status: 'success', message: 'Data processed' });
+  } catch (error) {
+    console.error('Decoding failed', error);
+    res.status(500).send({ status: 'error', message: 'Decoding failed' });
+  }
+});
+</code></pre>
+
+<p>이렇게 하면 기존에 <code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 전송 후 전달 받는 로직을 해치지 않고, 오히려 더 가볍고 빠르게 데이터를 전송할 수 있게 된다. 이것만으로 튜닝이 완벽하지 않을 수 있다. 이 후에도 동일한 문제가 발생된다면, 데이터를 더 쪼개어 <strong>분할 전송(Chunked Transfer)</strong>하거나 <strong>HTTP/2 서버 푸시</strong>를 사용하여 전송하는 방법도 고려해 볼 수 있다.</p>
+
+  </div><a class="u-url" href="/blog/laravel/2024/02/18/msgpack.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">byzz&#39;s programming note</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">byzz&#39;s programming note</li><li><a class="u-email" href="mailto:eyedroot@gmail.com">eyedroot@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/binbyz"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">binbyz</span></a></li><li><a href="https://www.twitter.com/eyedroot"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">eyedroot</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>비즈 개발 노트</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

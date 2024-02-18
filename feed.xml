@@ -1,4 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-14T04:58:47+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">클러스터 환경, Duplicate Entry Error 동시성 문제</title><link href="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html" rel="alternate" type="text/html" title="클러스터 환경, Duplicate Entry Error 동시성 문제" /><published>2024-02-14T04:00:00+00:00</published><updated>2024-02-14T04:00:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html"><![CDATA[<h2 id="개요-및-이슈">개요 및 이슈</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-18T10:47:52+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">MessagePack</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="MessagePack" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
+
+<p>라라벨 애플리케이션에서 <code class="language-plaintext highlighter-rouge">curl</code>를 통해 대량의 <code class="language-plaintext highlighter-rouge">json_encode</code>된 데이터를 전송하는 케이스가 있었다. 객체나 배열 자체를 클라이언트에서 Inspect 할 수 있는 오픈소스 라이브러리(<a href="https://phpgg.kr/">phpgg.kr</a>)인데 가령 객체 자체차 크거나 여러개의 객체가 중첩된 경우 메모리 할당량을 초과하여 발생하는 문제였다. 라라벨의 <code class="language-plaintext highlighter-rouge">dump()</code>, <code class="language-plaintext highlighter-rouge">dd()</code> 헬퍼 함수들은 이런 문제를 해결하기 위해 중첩된 객체의 사이즈가 너무 크면 잘라서 무효화 시키는 방법으로 데이터를 보여주었다. 나는 최대한 있는 그대로 내가 보고싶은 데이터를 잘림 없이 보여주고 싶었다.</p>
+
+<h2 id="해결책">해결책</h2>
+
+<p><code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 데이터를 전송하는게 가장 큰 비용이 발생하여 이를 압축된 바이너리(binary) 데이터로 전송하고자 한다. 바이너리로 전송하는 방법으로는 가장 쉽게 접근할 수 있는 방법으로 아래 두 가지가있다.</p>
+
+<ol>
+  <li><strong>Protocol Buffers</strong>
+    <ul>
+      <li>Protocol Buffer(Protobuf)는 구글에서 개발한 언어 중립적이고 플랫폼 독립적인 데이터 직렬화 도구이지만, 학습 곡선이 어느정도 존재한다. 장점으로는 <code class="language-plaintext highlighter-rouge">.proto</code> 파일을 통해 구조를 정의하면 이를 다양한 프로그래밍 언어로 변환할 수 있는 코드를 자동으로 생성할 수 있다.</li>
+    </ul>
+  </li>
+  <li><strong>Message Pack</strong>
+    <ul>
+      <li>MessagePack 포맷은 JSON과 유사한 스키마리스(schema-less) 데이터 교환 포맷이지만, 이진 형식을 사용하기 때문에 텍스트 기반의 JSON 보다 크기가 작고 처리 속도가 빠르다는 특징을 가지고 있다.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>두 가지 방법 중 쉽고 빠르게 적용가능한 <strong>MessagePack</strong>을 통해 압축된 바이너리 데이터를 적용해보자.</p>
+
+<h2 id="messagepack-적용">MessagePack 적용</h2>
+
+<h3 id="의존성-설치">의존성 설치</h3>
+
+<pre><code class="language-Shell">composer require rybakit/msgpack
+</code></pre>
+
+<p>먼저 MessagePack 압축 알고리즘을 사용하기 위해 아래의 라이브러리를 추가한다. 해당 라이브러리는 php 모듈이 따로 설치돼 있지 않아도 소스단에서 사용할 수 있게 구현된 라이브러리이다. (물론 직접 php 모듈을 통해 설치하면 퍼포먼스가 더 상승할 것이다)</p>
+
+<h3 id="코드-적용">코드 적용</h3>
+
+<p>나는 http <code class="language-plaintext highlighter-rouge">curl</code>를 통해 바이너리 데이터를 전송할 생각이기 때문에 아래의 코드와 같이 <code class="language-plaintext highlighter-rouge">CURLOPT_HTTPHEADER</code>를 <code class="language-plaintext highlighter-rouge">application/x-msgpack</code>으로 수정해 주었고, <code class="language-plaintext highlighter-rouge">MessagePack::pack($cunk);</code> 코드를 통해 인코딩을 간단히 진행한다.</p>
+
+<pre><code class="language-PHP">&lt;?php
+
+namespace Beaverlabs\Gg;
+
+use Rybakit\MessagePack\MessagePack;
+
+class Gg
+{
+    // 기존 메서드와 프로퍼티는 유지
+
+    private function sendData(): void
+    {
+        $endpoint = $this-&gt;getEndpoint();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
+        // MessagePack 컨텐츠 타입 설정
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-msgpack']);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        while (!empty($this-&gt;buffer)) {
+            $chunk = array_splice($this-&gt;buffer, 0, self::BUFFER_CHUNK_SIZE);
+            // 데이터를 MessagePack 형식으로 인코딩
+            $encodedData = MessagePack::pack($chunk);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            curl_exec($ch);
+        }
+
+        curl_close($ch);
+    }
+}
+</code></pre>
+<p><a href="https://github.com/binbyz/gg/blob/03fc1664e5f1831d6c70e45250ed61ff780cc43f/src/Gg.php#L147">전체 소스 보기</a></p>
+
+<h3 id="데이터-받기클라이언트">데이터 받기(클라이언트)</h3>
+
+<p>클라이언트는 <strong>electron</strong>으로 작성돼 있고, http 서버로는 <strong>express</strong>를 사용 중이였다. 클라이언트에서도 <strong>MessagePack</strong>으로 인코딩된 데이터를 받아 디코딩을 진행하기 위해 아래의 추가적인 의존성을 설치하고,</p>
+
+<pre><code class="language-Shell">npm install @msgpack/msgpack
+</code></pre>
+
+<p>미들웨어단에서 아래와 같은 헤더타입을 정의해준다.</p>
+
+<pre><code class="language-Typescript">// MessagePack 데이터를 위한 미들웨어 설정
+app.use(express.raw({ type: 'application/x-msgpack', limit: '128mb' }));
+</code></pre>
+
+<p>그리고 데이터를 받아 아래와 같이 디코딩을 진행한다.</p>
+
+<pre><code class="language-Typescript">const { decode } = require('@msgpack/msgpack');
+
+app.post('/data', (req, res) =&gt; {
+  try {
+    // MessagePack 데이터 디코딩
+    const data = decode(req.body);
+
+    console.log(data);
+    res.send({ status: 'success', message: 'Data processed' });
+  } catch (error) {
+    console.error('Decoding failed', error);
+    res.status(500).send({ status: 'error', message: 'Decoding failed' });
+  }
+});
+</code></pre>
+
+<p>이렇게 하면 기존에 <code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 전송 후 전달 받는 로직을 해치지 않고, 오히려 더 가볍고 빠르게 데이터를 전송할 수 있게 된다. 이것만으로 튜닝이 완벽하지 않을 수 있다. 이 후에도 동일한 문제가 발생된다면, 데이터를 더 쪼개어 <strong>분할 전송(Chunked Transfer)</strong>하거나 <strong>HTTP/2 서버 푸시</strong>를 사용하여 전송하는 방법도 고려해 볼 수 있다.</p>]]></content><author><name></name></author><category term="Laravel" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">클러스터 환경, Duplicate Entry Error 동시성 문제</title><link href="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html" rel="alternate" type="text/html" title="클러스터 환경, Duplicate Entry Error 동시성 문제" /><published>2024-02-14T04:00:00+00:00</published><updated>2024-02-14T04:00:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html"><![CDATA[<h2 id="개요-및-이슈">개요 및 이슈</h2>
 
 <p>클러스터 환경에서 서비스를 운영하다 보면, <code class="language-plaintext highlighter-rouge">SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '4240834-UKEY' for key 'database.table_name'(Connection: mysql, SQL ..)</code>와 같은 오류를 종종 마주칠 수 있습니다. 이유는 간단하다 동시에 많은 요청이 처리될 때, 특히 여러개의 Pod(클러스터 환경)에서 동시에 같은 데이터를 삽입(<code class="language-plaintext highlighter-rouge">INSERT</code>)하려고 할 때 발생할 수 있습니다. 기본적인 애플리케이션 내에서의 로직이 중복 삽입을 방지하기 위한 충분한 체크가 되지 않았거나 혹은 작성돼 있다고 하더라도 동시성 문제로 인해 충분히 발생할 수 있습니다.</p>
 
