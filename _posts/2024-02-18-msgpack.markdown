@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "MessagePack"
+title:  "cURL, MessagePack 바이너리 전송하기"
 date:   2024-02-18 19:11:00 +0900
 categories: Laravel
 ---
