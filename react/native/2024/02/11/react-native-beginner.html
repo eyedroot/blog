@@ -51,10 +51,10 @@
 
 <h3 id="useeffect">useEffect</h3>
 
-<pre><code class="language-Typescript">useEffect(() =&gt; {
-    loadTodos();
-}, []);
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">loadTodos</span><span class="p">();</span>
+<span class="p">},</span> <span class="p">[]);</span>
+</code></pre></div></div>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">useEffect</code> 훅을 사용하여 컴포넌트가 마운트될 때(즉, 화면에 처음으로 렌더링될 때) <code class="language-plaintext highlighter-rouge">loadToDos()</code> 함수를 실행한다.</li>
@@ -68,8 +68,8 @@
 
 <h3 id="usestate">useState</h3>
 
-<pre><code class="language-Typescript">const [toDos, setToDos] = useState&lt;ToDo&gt;({});
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">[</span><span class="nx">toDos</span><span class="p">,</span> <span class="nx">setToDos</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="o">&lt;</span><span class="nx">ToDo</span><span class="o">&gt;</span><span class="p">({});</span>
+</code></pre></div></div>
 
 <ul>
   <li>위의 <code class="language-plaintext highlighter-rouge">toDos</code>와 같은 <strong>상태 변수</strong>는 직접적으로 변경할 수 없는 <strong>불변(immutable)</strong> 상태로 취급된다.
@@ -84,12 +84,12 @@
   </li>
 </ul>
 
-<pre><code class="language-Typescript">// 잘못된 예: 상태를 직접 변경
-toDos.key = newValue;
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 잘못된 예: 상태를 직접 변경</span>
+<span class="nx">toDos</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">newValue</span><span class="p">;</span>
 
-// 올바른 예: 새로운 객체를 생성하여 상태 업데이트
-setToDos({ key: newValue });
-</code></pre>
+<span class="c1">// 올바른 예: 새로운 객체를 생성하여 상태 업데이트</span>
+<span class="nf">setToDos</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="nx">newValue</span> <span class="p">});</span>
+</code></pre></div></div>
 
   </div><a class="u-url" href="/blog/react/native/2024/02/11/react-native-beginner.html" hidden></a>
 </article>

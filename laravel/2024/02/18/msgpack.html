@@ -74,8 +74,8 @@
 
 <h3 id="의존성-설치">의존성 설치</h3>
 
-<pre><code class="language-Shell">composer require rybakit/msgpack
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require rybakit/msgpack
+</code></pre></div></div>
 
 <p>먼저 MessagePack 압축 알고리즘을 사용하기 위해 아래의 라이브러리를 추가한다. 해당 라이브러리는 php 모듈이 따로 설치돼 있지 않아도 소스단에서 사용할 수 있게 구현된 라이브러리이다. (물론 직접 php 모듈을 통해 설치하면 퍼포먼스가 더 상승할 것이다)</p>
 
@@ -83,76 +83,76 @@
 
 <p>나는 http <code class="language-plaintext highlighter-rouge">curl</code>를 통해 바이너리 데이터를 전송할 생각이기 때문에 아래의 코드와 같이 <code class="language-plaintext highlighter-rouge">CURLOPT_HTTPHEADER</code>를 <code class="language-plaintext highlighter-rouge">application/x-msgpack</code>으로 수정해 주었고, <code class="language-plaintext highlighter-rouge">MessagePack::pack($cunk);</code> 코드를 통해 인코딩을 간단히 진행한다.</p>
 
-<pre><code class="language-PHP">&lt;?php
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 
-namespace Beaverlabs\Gg;
+<span class="kn">namespace</span> <span class="nn">Beaverlabs\Gg</span><span class="p">;</span>
 
-use Rybakit\MessagePack\MessagePack;
+<span class="kn">use</span> <span class="nc">Rybakit\MessagePack\MessagePack</span><span class="p">;</span>
 
-class Gg
-{
-    // 기존 메서드와 프로퍼티는 유지
+<span class="kd">class</span> <span class="nc">Gg</span>
+<span class="p">{</span>
+    <span class="c1">// 기존 메서드와 프로퍼티는 유지</span>
 
-    private function sendData(): void
-    {
-        $endpoint = $this-&gt;getEndpoint();
+    <span class="k">private</span> <span class="k">function</span> <span class="n">sendData</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$endpoint</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getEndpoint</span><span class="p">();</span>
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
-        curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
-        // MessagePack 컨텐츠 타입 설정
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-msgpack']);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$endpoint</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CONNECTTIMEOUT_MS</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT_MS</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="k">self</span><span class="o">::</span><span class="nv">$userAgent</span><span class="p">);</span>
+        <span class="c1">// MessagePack 컨텐츠 타입 설정</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/x-msgpack'</span><span class="p">]);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
-        while (!empty($this-&gt;buffer)) {
-            $chunk = array_splice($this-&gt;buffer, 0, self::BUFFER_CHUNK_SIZE);
-            // 데이터를 MessagePack 형식으로 인코딩
-            $encodedData = MessagePack::pack($chunk);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
-            curl_exec($ch);
-        }
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$chunk</span> <span class="o">=</span> <span class="nb">array_splice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">self</span><span class="o">::</span><span class="no">BUFFER_CHUNK_SIZE</span><span class="p">);</span>
+            <span class="c1">// 데이터를 MessagePack 형식으로 인코딩</span>
+            <span class="nv">$encodedData</span> <span class="o">=</span> <span class="nc">MessagePack</span><span class="o">::</span><span class="nb">pack</span><span class="p">(</span><span class="nv">$chunk</span><span class="p">);</span>
+            <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$encodedData</span><span class="p">);</span>
+            <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+        <span class="p">}</span>
 
-        curl_close($ch);
-    }
-}
-</code></pre>
+        <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p><a href="https://github.com/binbyz/gg/blob/03fc1664e5f1831d6c70e45250ed61ff780cc43f/src/Gg.php#L147">전체 소스 보기</a></p>
 
 <h3 id="데이터-받기클라이언트">데이터 받기(클라이언트)</h3>
 
 <p>클라이언트는 <strong>electron</strong>으로 작성돼 있고, http 서버로는 <strong>express</strong>를 사용 중이였다. 클라이언트에서도 <strong>MessagePack</strong>으로 인코딩된 데이터를 받아 디코딩을 진행하기 위해 아래의 추가적인 의존성을 설치하고,</p>
 
-<pre><code class="language-Shell">npm install @msgpack/msgpack
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @msgpack/msgpack
+</code></pre></div></div>
 
 <p>미들웨어단에서 아래와 같은 헤더타입을 정의해준다.</p>
 
-<pre><code class="language-Typescript">// MessagePack 데이터를 위한 미들웨어 설정
-app.use(express.raw({ type: 'application/x-msgpack', limit: '128mb' }));
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// MessagePack 데이터를 위한 미들웨어 설정</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">raw</span><span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/x-msgpack</span><span class="dl">'</span><span class="p">,</span> <span class="na">limit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">128mb</span><span class="dl">'</span> <span class="p">}));</span>
+</code></pre></div></div>
 
 <p>그리고 데이터를 받아 아래와 같이 디코딩을 진행한다.</p>
 
-<pre><code class="language-Typescript">const { decode } = require('@msgpack/msgpack');
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">decode</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">@msgpack/msgpack</span><span class="dl">'</span><span class="p">);</span>
 
-app.post('/data', (req, res) =&gt; {
-  try {
-    // MessagePack 데이터 디코딩
-    const data = decode(req.body);
+<span class="nx">app</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/data</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// MessagePack 데이터 디코딩</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nf">decode</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
 
-    console.log(data);
-    res.send({ status: 'success', message: 'Data processed' });
-  } catch (error) {
-    console.error('Decoding failed', error);
-    res.status(500).send({ status: 'error', message: 'Decoding failed' });
-  }
-});
-</code></pre>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">({</span> <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">success</span><span class="dl">'</span><span class="p">,</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Data processed</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Decoding failed</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nf">send</span><span class="p">({</span> <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Decoding failed</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
 
 <p>이렇게 하면 기존에 <code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 전송 후 전달 받는 로직을 해치지 않고, 오히려 더 가볍고 빠르게 데이터를 전송할 수 있게 된다. 이것만으로 튜닝이 완벽하지 않을 수 있다. 이 후에도 동일한 문제가 발생된다면, 데이터를 더 쪼개어 <strong>분할 전송(Chunked Transfer)</strong>하거나 <strong>HTTP/2 서버 푸시</strong>를 사용하여 전송하는 방법도 고려해 볼 수 있다.</p>
 

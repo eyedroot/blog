@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-18T10:47:52+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">MessagePack</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="MessagePack" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-18T10:57:18+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">MessagePack</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="MessagePack" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
 
 <p>라라벨 애플리케이션에서 <code class="language-plaintext highlighter-rouge">curl</code>를 통해 대량의 <code class="language-plaintext highlighter-rouge">json_encode</code>된 데이터를 전송하는 케이스가 있었다. 객체나 배열 자체를 클라이언트에서 Inspect 할 수 있는 오픈소스 라이브러리(<a href="https://phpgg.kr/">phpgg.kr</a>)인데 가령 객체 자체차 크거나 여러개의 객체가 중첩된 경우 메모리 할당량을 초과하여 발생하는 문제였다. 라라벨의 <code class="language-plaintext highlighter-rouge">dump()</code>, <code class="language-plaintext highlighter-rouge">dd()</code> 헬퍼 함수들은 이런 문제를 해결하기 위해 중첩된 객체의 사이즈가 너무 크면 잘라서 무효화 시키는 방법으로 데이터를 보여주었다. 나는 최대한 있는 그대로 내가 보고싶은 데이터를 잘림 없이 보여주고 싶었다.</p>
 
@@ -25,8 +25,8 @@
 
 <h3 id="의존성-설치">의존성 설치</h3>
 
-<pre><code class="language-Shell">composer require rybakit/msgpack
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require rybakit/msgpack
+</code></pre></div></div>
 
 <p>먼저 MessagePack 압축 알고리즘을 사용하기 위해 아래의 라이브러리를 추가한다. 해당 라이브러리는 php 모듈이 따로 설치돼 있지 않아도 소스단에서 사용할 수 있게 구현된 라이브러리이다. (물론 직접 php 모듈을 통해 설치하면 퍼포먼스가 더 상승할 것이다)</p>
 
@@ -34,76 +34,76 @@
 
 <p>나는 http <code class="language-plaintext highlighter-rouge">curl</code>를 통해 바이너리 데이터를 전송할 생각이기 때문에 아래의 코드와 같이 <code class="language-plaintext highlighter-rouge">CURLOPT_HTTPHEADER</code>를 <code class="language-plaintext highlighter-rouge">application/x-msgpack</code>으로 수정해 주었고, <code class="language-plaintext highlighter-rouge">MessagePack::pack($cunk);</code> 코드를 통해 인코딩을 간단히 진행한다.</p>
 
-<pre><code class="language-PHP">&lt;?php
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 
-namespace Beaverlabs\Gg;
+<span class="kn">namespace</span> <span class="nn">Beaverlabs\Gg</span><span class="p">;</span>
 
-use Rybakit\MessagePack\MessagePack;
+<span class="kn">use</span> <span class="nc">Rybakit\MessagePack\MessagePack</span><span class="p">;</span>
 
-class Gg
-{
-    // 기존 메서드와 프로퍼티는 유지
+<span class="kd">class</span> <span class="nc">Gg</span>
+<span class="p">{</span>
+    <span class="c1">// 기존 메서드와 프로퍼티는 유지</span>
 
-    private function sendData(): void
-    {
-        $endpoint = $this-&gt;getEndpoint();
+    <span class="k">private</span> <span class="k">function</span> <span class="n">sendData</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$endpoint</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getEndpoint</span><span class="p">();</span>
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
-        curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
-        // MessagePack 컨텐츠 타입 설정
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-msgpack']);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$endpoint</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CONNECTTIMEOUT_MS</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT_MS</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="k">self</span><span class="o">::</span><span class="nv">$userAgent</span><span class="p">);</span>
+        <span class="c1">// MessagePack 컨텐츠 타입 설정</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/x-msgpack'</span><span class="p">]);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
-        while (!empty($this-&gt;buffer)) {
-            $chunk = array_splice($this-&gt;buffer, 0, self::BUFFER_CHUNK_SIZE);
-            // 데이터를 MessagePack 형식으로 인코딩
-            $encodedData = MessagePack::pack($chunk);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
-            curl_exec($ch);
-        }
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$chunk</span> <span class="o">=</span> <span class="nb">array_splice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">self</span><span class="o">::</span><span class="no">BUFFER_CHUNK_SIZE</span><span class="p">);</span>
+            <span class="c1">// 데이터를 MessagePack 형식으로 인코딩</span>
+            <span class="nv">$encodedData</span> <span class="o">=</span> <span class="nc">MessagePack</span><span class="o">::</span><span class="nb">pack</span><span class="p">(</span><span class="nv">$chunk</span><span class="p">);</span>
+            <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$encodedData</span><span class="p">);</span>
+            <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+        <span class="p">}</span>
 
-        curl_close($ch);
-    }
-}
-</code></pre>
+        <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p><a href="https://github.com/binbyz/gg/blob/03fc1664e5f1831d6c70e45250ed61ff780cc43f/src/Gg.php#L147">전체 소스 보기</a></p>
 
 <h3 id="데이터-받기클라이언트">데이터 받기(클라이언트)</h3>
 
 <p>클라이언트는 <strong>electron</strong>으로 작성돼 있고, http 서버로는 <strong>express</strong>를 사용 중이였다. 클라이언트에서도 <strong>MessagePack</strong>으로 인코딩된 데이터를 받아 디코딩을 진행하기 위해 아래의 추가적인 의존성을 설치하고,</p>
 
-<pre><code class="language-Shell">npm install @msgpack/msgpack
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @msgpack/msgpack
+</code></pre></div></div>
 
 <p>미들웨어단에서 아래와 같은 헤더타입을 정의해준다.</p>
 
-<pre><code class="language-Typescript">// MessagePack 데이터를 위한 미들웨어 설정
-app.use(express.raw({ type: 'application/x-msgpack', limit: '128mb' }));
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// MessagePack 데이터를 위한 미들웨어 설정</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nf">raw</span><span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/x-msgpack</span><span class="dl">'</span><span class="p">,</span> <span class="na">limit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">128mb</span><span class="dl">'</span> <span class="p">}));</span>
+</code></pre></div></div>
 
 <p>그리고 데이터를 받아 아래와 같이 디코딩을 진행한다.</p>
 
-<pre><code class="language-Typescript">const { decode } = require('@msgpack/msgpack');
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">decode</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">@msgpack/msgpack</span><span class="dl">'</span><span class="p">);</span>
 
-app.post('/data', (req, res) =&gt; {
-  try {
-    // MessagePack 데이터 디코딩
-    const data = decode(req.body);
+<span class="nx">app</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/data</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// MessagePack 데이터 디코딩</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nf">decode</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
 
-    console.log(data);
-    res.send({ status: 'success', message: 'Data processed' });
-  } catch (error) {
-    console.error('Decoding failed', error);
-    res.status(500).send({ status: 'error', message: 'Decoding failed' });
-  }
-});
-</code></pre>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">send</span><span class="p">({</span> <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">success</span><span class="dl">'</span><span class="p">,</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Data processed</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Decoding failed</span><span class="dl">'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nf">send</span><span class="p">({</span> <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Decoding failed</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
 
 <p>이렇게 하면 기존에 <code class="language-plaintext highlighter-rouge">json_encode</code>를 통해 전송 후 전달 받는 로직을 해치지 않고, 오히려 더 가볍고 빠르게 데이터를 전송할 수 있게 된다. 이것만으로 튜닝이 완벽하지 않을 수 있다. 이 후에도 동일한 문제가 발생된다면, 데이터를 더 쪼개어 <strong>분할 전송(Chunked Transfer)</strong>하거나 <strong>HTTP/2 서버 푸시</strong>를 사용하여 전송하는 방법도 고려해 볼 수 있다.</p>]]></content><author><name></name></author><category term="Laravel" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">클러스터 환경, Duplicate Entry Error 동시성 문제</title><link href="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html" rel="alternate" type="text/html" title="클러스터 환경, Duplicate Entry Error 동시성 문제" /><published>2024-02-14T04:00:00+00:00</published><updated>2024-02-14T04:00:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/14/duplicate-entry-error.html"><![CDATA[<h2 id="개요-및-이슈">개요 및 이슈</h2>
 
@@ -119,31 +119,31 @@ app.post('/data', (req, res) =&gt; {
 
 <h2 id="분산-락distributed-locking-예시">분산 락(Distributed Locking) 예시</h2>
 
-<pre><code class="language-PHP">use Illuminate\Support\Facades\Cache;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Cache</span><span class="p">;</span>
 
-$lock = Cache::lock('test_tracker_chance', 10); // 10초 동안 락을 얻으려고 시도
+<span class="nv">$lock</span> <span class="o">=</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'test_tracker_chance'</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 10초 동안 락을 얻으려고 시도</span>
 
-if ($lock-&gt;get()) {
-    // 중복 체크 로직 실행
-    $exists = DB::table('test_trackers')
-                -&gt;where('member_id', $memberId)
-                -&gt;where('type', $type)
-                -&gt;exists();
+<span class="k">if</span> <span class="p">(</span><span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// 중복 체크 로직 실행</span>
+    <span class="nv">$exists</span> <span class="o">=</span> <span class="no">DB</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'test_trackers'</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="nv">$memberId</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span> <span class="nv">$type</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">exists</span><span class="p">();</span>
 
-    if (!$exists) {
-        // 데이터가 존재하지 않으면 삽입
-        DB::table('test_trackers')-&gt;insert([
-            'member_id' =&gt; $memberId,
-            'type' =&gt; $type,
-            'value' =&gt; $value,
-            'updated_at' =&gt; now(),
-            'created_at' =&gt; now(),
-        ]);
-    }
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$exists</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 데이터가 존재하지 않으면 삽입</span>
+        <span class="no">DB</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'test_trackers'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">insert</span><span class="p">([</span>
+            <span class="s1">'member_id'</span> <span class="o">=&gt;</span> <span class="nv">$memberId</span><span class="p">,</span>
+            <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nv">$type</span><span class="p">,</span>
+            <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">,</span>
+            <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nf">now</span><span class="p">(),</span>
+            <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nf">now</span><span class="p">(),</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
 
-    $lock-&gt;release(); // 작업 완료 후 락 해제
-}
-</code></pre>
+    <span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">release</span><span class="p">();</span> <span class="c1">// 작업 완료 후 락 해제</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>이 코드는 Redis 등의 분산 캐시를 사용하여 락을 구현한 예시입니다. <code class="language-plaintext highlighter-rouge">Cache::lock</code> 메소드를 사용하여 락을 얻고, 해당 락을 얻는데 성공하면 중복 데이터 삽입을 시조하기 전에 데이터가 이미 존재하는지 체크합니다. 모든 작업이 완료되면 <code class="language-plaintext highlighter-rouge">release</code> 메소드를 호출하여 락을 해제합니다.</p>
 
@@ -160,44 +160,44 @@ if ($lock-&gt;get()) {
 
 <p><code class="language-plaintext highlighter-rouge">Cache::lock</code>을 사용할 때 기존 애플리케이션에서 사용하는 커넥션과 별개로 분리하는게 도움이 될 수 있습니다. <code class="language-plaintext highlighter-rouge">config/cache.php</code> 파일에서 커넥션을 새롭게 정의하고 특정 캐시 연결을 <code class="language-plaintext highlighter-rouge">lockConnection</code>으로 사용하려면 <code class="language-plaintext highlighter-rouge">Cache::store('yourLockConnection')-&gt;lock(...)</code> 형식으로 사용할 수 있습니다.</p>
 
-<pre><code class="language-PHP">'redis' =&gt; [
-    'client' =&gt; 'predis',
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'redis'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'client'</span> <span class="o">=&gt;</span> <span class="s1">'predis'</span><span class="p">,</span>
 
-    'options' =&gt; [
-        'cluster' =&gt; 'redis',
-        'prefix' =&gt; env('REDIS_PREFIX', 'laravel_database_'),
-    ],
+    <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'cluster'</span> <span class="o">=&gt;</span> <span class="s1">'redis'</span><span class="p">,</span>
+        <span class="s1">'prefix'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PREFIX'</span><span class="p">,</span> <span class="s1">'laravel_database_'</span><span class="p">),</span>
+    <span class="p">],</span>
 
-    'default' =&gt; [
-        'url' =&gt; env('REDIS_URL'),
-        'host' =&gt; env('REDIS_HOST', '127.0.0.1'),
-        'password' =&gt; env('REDIS_PASSWORD', null),
-        'port' =&gt; env('REDIS_PORT', '6379'),
-        'database' =&gt; env('REDIS_DB', '0'),
-    ],
+    <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_URL'</span><span class="p">),</span>
+        <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_HOST'</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span><span class="p">),</span>
+        <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PASSWORD'</span><span class="p">,</span> <span class="kc">null</span><span class="p">),</span>
+        <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PORT'</span><span class="p">,</span> <span class="s1">'6379'</span><span class="p">),</span>
+        <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_DB'</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">),</span>
+    <span class="p">],</span>
 
-    // 분산 락을 위한 별도의 연결 추가
-    'lockConnection' =&gt; [
-        'url' =&gt; env('REDIS_URL'),
-        'host' =&gt; env('REDIS_HOST', '127.0.0.1'),
-        'password' =&gt; env('REDIS_PASSWORD', null),
-        'port' =&gt; env('REDIS_PORT', '6379'),
-        'database' =&gt; env('REDIS_LOCK_DB', '1'), // 예를 들어, 다른 DB 인덱스를 사용
-    ],
-],
-</code></pre>
+    <span class="c1">// 분산 락을 위한 별도의 연결 추가</span>
+    <span class="s1">'lockConnection'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_URL'</span><span class="p">),</span>
+        <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_HOST'</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span><span class="p">),</span>
+        <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PASSWORD'</span><span class="p">,</span> <span class="kc">null</span><span class="p">),</span>
+        <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PORT'</span><span class="p">,</span> <span class="s1">'6379'</span><span class="p">),</span>
+        <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_LOCK_DB'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">),</span> <span class="c1">// 예를 들어, 다른 DB 인덱스를 사용</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
 
 <p>이렇게 설정한 후, <code class="language-plaintext highlighter-rouge">Cache::store('redis')-&gt;lock(...)</code> 대신 <code class="language-plaintext highlighter-rouge">lockConnection</code>을 사용하여 <code class="language-plaintext highlighter-rouge">Cache::store('lockConnection')-&gt;lock(...)</code> 형식으로 분산 락을 구현할 수 있습니다.</p>
 
-<pre><code class="language-PHP">$lock = Cache::store('lockConnection')-&gt;lock('migration_tracker_insert', 10);
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$lock</span> <span class="o">=</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">store</span><span class="p">(</span><span class="s1">'lockConnection'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'migration_tracker_insert'</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 
-if ($lock-&gt;get()) {
-    // 락을 성공적으로 얻었을 때의 로직
-    // ...
+<span class="k">if</span> <span class="p">(</span><span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// 락을 성공적으로 얻었을 때의 로직</span>
+    <span class="c1">// ...</span>
 
-    $lock-&gt;release(); // 작업 완료 후 락 해제
-}
-</code></pre>
+    <span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">release</span><span class="p">();</span> <span class="c1">// 작업 완료 후 락 해제</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>이 방식을 사용하면, 기본 캐시 데이터와 분산 락을 위한 데이터를 분리하여 관리할 수 있으며, 이는 경쟁 상태를 최소화하는데 도움이 될 수 있습니다. 분산 락을 위한 별도의 연결을 설정함으로써, 캐시 데이터와 락 데이터 간의 상호 작용이 서로 영향을 주지 않도록 할 수 있습니다.</p>]]></content><author><name></name></author><category term="Laravel" /><summary type="html"><![CDATA[개요 및 이슈]]></summary></entry><entry><title type="html">React Native, JSX</title><link href="https://binbyz.github.io//blog/react/native/2024/02/11/jsx.html" rel="alternate" type="text/html" title="React Native, JSX" /><published>2024-02-11T08:07:00+00:00</published><updated>2024-02-11T08:07:00+00:00</updated><id>https://binbyz.github.io//blog/react/native/2024/02/11/jsx</id><content type="html" xml:base="https://binbyz.github.io//blog/react/native/2024/02/11/jsx.html"><![CDATA[<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">TextInput</span>
   <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span>
@@ -234,17 +234,17 @@ if ($lock-&gt;get()) {
 
 <p>트랜스파일 후의 자바스크립트 코드는 대략 다음과 같다.</p>
 
-<pre><code class="language-Typescript">React.createElement(TextInput, { value: text }, null);
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">React</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="nx">TextInput</span><span class="p">,</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="nx">text</span> <span class="p">},</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>이와 같이 JSX 문법을 사용하는 것은 React 요소를 생성하는 과정을 보다 선언적이고 직관적으로 만들어 주지만, 실제로는 <code class="language-plaintext highlighter-rouge">React.createElement</code> 함수 호출로 변환되어 JavaScript 엔진이 이해할 수 있는 코드로 실행됩니다. 따라서 JSX에서 <code class="language-plaintext highlighter-rouge">{}</code>를 사용하는 것은 JavaScript 표현식을 통해 <strong>동적인 값을 컴포넌트의 속성으로 전달</strong>할 수 있게 하는 중요한 문법적 기능입니다.</p>]]></content><author><name></name></author><category term="React" /><category term="Native" /><summary type="html"><![CDATA[&lt;TextInput value={text} style={styles.input} placeholder={working ? 'Add a To Do' : 'Where do you want to go?'} returnKeyType="done" secureTextEntry={false} multiline={false} placeholderTextColor={theme.grey} onChangeText={onChangeText} onSubmitEditing={onSubmit} /&gt;]]></summary></entry><entry><title type="html">React Native, Hook</title><link href="https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner.html" rel="alternate" type="text/html" title="React Native, Hook" /><published>2024-02-11T06:24:00+00:00</published><updated>2024-02-11T06:24:00+00:00</updated><id>https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner</id><content type="html" xml:base="https://binbyz.github.io//blog/react/native/2024/02/11/react-native-beginner.html"><![CDATA[<h2 id="react-native-hook-basic">React Native Hook Basic</h2>
 
 <h3 id="useeffect">useEffect</h3>
 
-<pre><code class="language-Typescript">useEffect(() =&gt; {
-    loadTodos();
-}, []);
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">loadTodos</span><span class="p">();</span>
+<span class="p">},</span> <span class="p">[]);</span>
+</code></pre></div></div>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">useEffect</code> 훅을 사용하여 컴포넌트가 마운트될 때(즉, 화면에 처음으로 렌더링될 때) <code class="language-plaintext highlighter-rouge">loadToDos()</code> 함수를 실행한다.</li>
@@ -258,8 +258,8 @@ if ($lock-&gt;get()) {
 
 <h3 id="usestate">useState</h3>
 
-<pre><code class="language-Typescript">const [toDos, setToDos] = useState&lt;ToDo&gt;({});
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">[</span><span class="nx">toDos</span><span class="p">,</span> <span class="nx">setToDos</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="o">&lt;</span><span class="nx">ToDo</span><span class="o">&gt;</span><span class="p">({});</span>
+</code></pre></div></div>
 
 <ul>
   <li>위의 <code class="language-plaintext highlighter-rouge">toDos</code>와 같은 <strong>상태 변수</strong>는 직접적으로 변경할 수 없는 <strong>불변(immutable)</strong> 상태로 취급된다.
@@ -274,12 +274,12 @@ if ($lock-&gt;get()) {
   </li>
 </ul>
 
-<pre><code class="language-Typescript">// 잘못된 예: 상태를 직접 변경
-toDos.key = newValue;
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 잘못된 예: 상태를 직접 변경</span>
+<span class="nx">toDos</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">newValue</span><span class="p">;</span>
 
-// 올바른 예: 새로운 객체를 생성하여 상태 업데이트
-setToDos({ key: newValue });
-</code></pre>]]></content><author><name></name></author><category term="React" /><category term="Native" /><summary type="html"><![CDATA[React Native Hook Basic]]></summary></entry><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
+<span class="c1">// 올바른 예: 새로운 객체를 생성하여 상태 업데이트</span>
+<span class="nf">setToDos</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="nx">newValue</span> <span class="p">});</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="React" /><category term="Native" /><summary type="html"><![CDATA[React Native Hook Basic]]></summary></entry><entry><title type="html">spatie/laravel-data 데이터 객체 복제</title><link href="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html" rel="alternate" type="text/html" title="spatie/laravel-data 데이터 객체 복제" /><published>2024-01-30T04:12:00+00:00</published><updated>2024-01-30T04:12:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/01/30/spatie-laravel-data-tips.html"><![CDATA[<p>오픈소스 개발 회사 <strong>spatie</strong>에서 개발된 <a href="https://spatie.be/docs/laravel-data/v3/introduction">laravel-data</a> 패키지를 소개합니다. 공식 홈페이지에서는 다음과 같이 <strong>laravel-data</strong>를 소개하고 있습니다.</p>
 
 <blockquote>
   <p>Powerful data objects for laravel</p>

@@ -61,31 +61,31 @@
 
 <h2 id="분산-락distributed-locking-예시">분산 락(Distributed Locking) 예시</h2>
 
-<pre><code class="language-PHP">use Illuminate\Support\Facades\Cache;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Cache</span><span class="p">;</span>
 
-$lock = Cache::lock('test_tracker_chance', 10); // 10초 동안 락을 얻으려고 시도
+<span class="nv">$lock</span> <span class="o">=</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'test_tracker_chance'</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 10초 동안 락을 얻으려고 시도</span>
 
-if ($lock-&gt;get()) {
-    // 중복 체크 로직 실행
-    $exists = DB::table('test_trackers')
-                -&gt;where('member_id', $memberId)
-                -&gt;where('type', $type)
-                -&gt;exists();
+<span class="k">if</span> <span class="p">(</span><span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// 중복 체크 로직 실행</span>
+    <span class="nv">$exists</span> <span class="o">=</span> <span class="no">DB</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'test_trackers'</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="nv">$memberId</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span> <span class="nv">$type</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">exists</span><span class="p">();</span>
 
-    if (!$exists) {
-        // 데이터가 존재하지 않으면 삽입
-        DB::table('test_trackers')-&gt;insert([
-            'member_id' =&gt; $memberId,
-            'type' =&gt; $type,
-            'value' =&gt; $value,
-            'updated_at' =&gt; now(),
-            'created_at' =&gt; now(),
-        ]);
-    }
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$exists</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 데이터가 존재하지 않으면 삽입</span>
+        <span class="no">DB</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'test_trackers'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">insert</span><span class="p">([</span>
+            <span class="s1">'member_id'</span> <span class="o">=&gt;</span> <span class="nv">$memberId</span><span class="p">,</span>
+            <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nv">$type</span><span class="p">,</span>
+            <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">,</span>
+            <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nf">now</span><span class="p">(),</span>
+            <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nf">now</span><span class="p">(),</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
 
-    $lock-&gt;release(); // 작업 완료 후 락 해제
-}
-</code></pre>
+    <span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">release</span><span class="p">();</span> <span class="c1">// 작업 완료 후 락 해제</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>이 코드는 Redis 등의 분산 캐시를 사용하여 락을 구현한 예시입니다. <code class="language-plaintext highlighter-rouge">Cache::lock</code> 메소드를 사용하여 락을 얻고, 해당 락을 얻는데 성공하면 중복 데이터 삽입을 시조하기 전에 데이터가 이미 존재하는지 체크합니다. 모든 작업이 완료되면 <code class="language-plaintext highlighter-rouge">release</code> 메소드를 호출하여 락을 해제합니다.</p>
 
@@ -102,44 +102,44 @@ if ($lock-&gt;get()) {
 
 <p><code class="language-plaintext highlighter-rouge">Cache::lock</code>을 사용할 때 기존 애플리케이션에서 사용하는 커넥션과 별개로 분리하는게 도움이 될 수 있습니다. <code class="language-plaintext highlighter-rouge">config/cache.php</code> 파일에서 커넥션을 새롭게 정의하고 특정 캐시 연결을 <code class="language-plaintext highlighter-rouge">lockConnection</code>으로 사용하려면 <code class="language-plaintext highlighter-rouge">Cache::store('yourLockConnection')-&gt;lock(...)</code> 형식으로 사용할 수 있습니다.</p>
 
-<pre><code class="language-PHP">'redis' =&gt; [
-    'client' =&gt; 'predis',
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'redis'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'client'</span> <span class="o">=&gt;</span> <span class="s1">'predis'</span><span class="p">,</span>
 
-    'options' =&gt; [
-        'cluster' =&gt; 'redis',
-        'prefix' =&gt; env('REDIS_PREFIX', 'laravel_database_'),
-    ],
+    <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'cluster'</span> <span class="o">=&gt;</span> <span class="s1">'redis'</span><span class="p">,</span>
+        <span class="s1">'prefix'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PREFIX'</span><span class="p">,</span> <span class="s1">'laravel_database_'</span><span class="p">),</span>
+    <span class="p">],</span>
 
-    'default' =&gt; [
-        'url' =&gt; env('REDIS_URL'),
-        'host' =&gt; env('REDIS_HOST', '127.0.0.1'),
-        'password' =&gt; env('REDIS_PASSWORD', null),
-        'port' =&gt; env('REDIS_PORT', '6379'),
-        'database' =&gt; env('REDIS_DB', '0'),
-    ],
+    <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_URL'</span><span class="p">),</span>
+        <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_HOST'</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span><span class="p">),</span>
+        <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PASSWORD'</span><span class="p">,</span> <span class="kc">null</span><span class="p">),</span>
+        <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PORT'</span><span class="p">,</span> <span class="s1">'6379'</span><span class="p">),</span>
+        <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_DB'</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">),</span>
+    <span class="p">],</span>
 
-    // 분산 락을 위한 별도의 연결 추가
-    'lockConnection' =&gt; [
-        'url' =&gt; env('REDIS_URL'),
-        'host' =&gt; env('REDIS_HOST', '127.0.0.1'),
-        'password' =&gt; env('REDIS_PASSWORD', null),
-        'port' =&gt; env('REDIS_PORT', '6379'),
-        'database' =&gt; env('REDIS_LOCK_DB', '1'), // 예를 들어, 다른 DB 인덱스를 사용
-    ],
-],
-</code></pre>
+    <span class="c1">// 분산 락을 위한 별도의 연결 추가</span>
+    <span class="s1">'lockConnection'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_URL'</span><span class="p">),</span>
+        <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_HOST'</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span><span class="p">),</span>
+        <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PASSWORD'</span><span class="p">,</span> <span class="kc">null</span><span class="p">),</span>
+        <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_PORT'</span><span class="p">,</span> <span class="s1">'6379'</span><span class="p">),</span>
+        <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'REDIS_LOCK_DB'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">),</span> <span class="c1">// 예를 들어, 다른 DB 인덱스를 사용</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
 
 <p>이렇게 설정한 후, <code class="language-plaintext highlighter-rouge">Cache::store('redis')-&gt;lock(...)</code> 대신 <code class="language-plaintext highlighter-rouge">lockConnection</code>을 사용하여 <code class="language-plaintext highlighter-rouge">Cache::store('lockConnection')-&gt;lock(...)</code> 형식으로 분산 락을 구현할 수 있습니다.</p>
 
-<pre><code class="language-PHP">$lock = Cache::store('lockConnection')-&gt;lock('migration_tracker_insert', 10);
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$lock</span> <span class="o">=</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">store</span><span class="p">(</span><span class="s1">'lockConnection'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'migration_tracker_insert'</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 
-if ($lock-&gt;get()) {
-    // 락을 성공적으로 얻었을 때의 로직
-    // ...
+<span class="k">if</span> <span class="p">(</span><span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// 락을 성공적으로 얻었을 때의 로직</span>
+    <span class="c1">// ...</span>
 
-    $lock-&gt;release(); // 작업 완료 후 락 해제
-}
-</code></pre>
+    <span class="nv">$lock</span><span class="o">-&gt;</span><span class="nf">release</span><span class="p">();</span> <span class="c1">// 작업 완료 후 락 해제</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>이 방식을 사용하면, 기본 캐시 데이터와 분산 락을 위한 데이터를 분리하여 관리할 수 있으며, 이는 경쟁 상태를 최소화하는데 도움이 될 수 있습니다. 분산 락을 위한 별도의 연결을 설정함으로써, 캐시 데이터와 락 데이터 간의 상호 작용이 서로 영향을 주지 않도록 할 수 있습니다.</p>
 

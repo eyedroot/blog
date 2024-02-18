@@ -82,8 +82,8 @@
 
 <p>트랜스파일 후의 자바스크립트 코드는 대략 다음과 같다.</p>
 
-<pre><code class="language-Typescript">React.createElement(TextInput, { value: text }, null);
-</code></pre>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">React</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="nx">TextInput</span><span class="p">,</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="nx">text</span> <span class="p">},</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>이와 같이 JSX 문법을 사용하는 것은 React 요소를 생성하는 과정을 보다 선언적이고 직관적으로 만들어 주지만, 실제로는 <code class="language-plaintext highlighter-rouge">React.createElement</code> 함수 호출로 변환되어 JavaScript 엔진이 이해할 수 있는 코드로 실행됩니다. 따라서 JSX에서 <code class="language-plaintext highlighter-rouge">{}</code>를 사용하는 것은 JavaScript 표현식을 통해 <strong>동적인 값을 컴포넌트의 속성으로 전달</strong>할 수 있게 하는 중요한 문법적 기능입니다.</p>
 
