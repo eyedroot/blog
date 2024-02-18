@@ -24,7 +24,7 @@ categories: Laravel
 
 ### 의존성 설치
 
-```Shell
+```shell
 composer require rybakit/msgpack
 ```
 
@@ -34,7 +34,7 @@ composer require rybakit/msgpack
 
 나는 http `curl`를 통해 바이너리 데이터를 전송할 생각이기 때문에 아래의 코드와 같이 `CURLOPT_HTTPHEADER`를 `application/x-msgpack`으로 수정해 주었고, `MessagePack::pack($cunk);` 코드를 통해 인코딩을 간단히 진행한다.
 
-```PHP
+```php
 <?php
 
 namespace Beaverlabs\Gg;
@@ -79,20 +79,20 @@ class Gg
 
 클라이언트는 **electron**으로 작성돼 있고, http 서버로는 **express**를 사용 중이였다. 클라이언트에서도 **MessagePack**으로 인코딩된 데이터를 받아 디코딩을 진행하기 위해 아래의 추가적인 의존성을 설치하고,
 
-```Shell
+```shell
 npm install @msgpack/msgpack
 ```
 
 미들웨어단에서 아래와 같은 헤더타입을 정의해준다.
 
-```Typescript
+```typescript
 // MessagePack 데이터를 위한 미들웨어 설정
 app.use(express.raw({ type: 'application/x-msgpack', limit: '128mb' }));
 ```
 
 그리고 데이터를 받아 아래와 같이 디코딩을 진행한다.
 
-```Typescript
+```typescript
 const { decode } = require('@msgpack/msgpack');
 
 app.post('/data', (req, res) => {

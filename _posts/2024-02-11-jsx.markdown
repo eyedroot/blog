@@ -40,7 +40,7 @@ JSX 코드가 트랜스파일 과정을 거치면, React의 createElement 함수
 
 트랜스파일 후의 자바스크립트 코드는 대략 다음과 같다.
 
-```Typescript
+```typescript
 React.createElement(TextInput, { value: text }, null);
 ```
 

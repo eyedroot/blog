@@ -16,7 +16,7 @@ categories: Laravel
 
 ## 분산 락(Distributed Locking) 예시
 
-```PHP
+```php
 use Illuminate\Support\Facades\Cache;
 
 $lock = Cache::lock('test_tracker_chance', 10); // 10초 동안 락을 얻으려고 시도
@@ -56,7 +56,7 @@ if ($lock->get()) {
 
 `Cache::lock`을 사용할 때 기존 애플리케이션에서 사용하는 커넥션과 별개로 분리하는게 도움이 될 수 있습니다. `config/cache.php` 파일에서 커넥션을 새롭게 정의하고 특정 캐시 연결을 `lockConnection`으로 사용하려면 `Cache::store('yourLockConnection')->lock(...)` 형식으로 사용할 수 있습니다.
 
-```PHP
+```php
 'redis' => [
     'client' => 'predis',
 
@@ -86,7 +86,7 @@ if ($lock->get()) {
 
 이렇게 설정한 후, `Cache::store('redis')->lock(...)` 대신 `lockConnection`을 사용하여 `Cache::store('lockConnection')->lock(...)` 형식으로 분산 락을 구현할 수 있습니다.
 
-```PHP
+```php
 $lock = Cache::store('lockConnection')->lock('migration_tracker_insert', 10);
 
 if ($lock->get()) {

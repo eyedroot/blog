@@ -8,7 +8,7 @@ categories: React Native
 
 ### useEffect
 
-```Typescript
+```typescript
 useEffect(() => {
     loadTodos();
 }, []);
@@ -21,7 +21,7 @@ useEffect(() => {
 
 ### useState
 
-```Typescript
+```typescript
 const [toDos, setToDos] = useState<ToDo>({});
 ```
 
@@ -30,7 +30,7 @@ const [toDos, setToDos] = useState<ToDo>({});
 - `setToDos`는 상태를 업데이트하는 함수이다.
   - `toDos`의 값을 직접 변경하는 것이 아니라, 상태를 업데이트할 필요가 있을 때는 항상 `setToDos` 함수를 사용하여 새로운 상태 값을 전달해야 한다. (React의 상태 불변성 원칙)
 
-```Typescript
+```typescript
 // 잘못된 예: 상태를 직접 변경
 toDos.key = newValue;
 
