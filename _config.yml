@@ -26,7 +26,7 @@ baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "https://binbyz.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: eyedroot
 github_username:  binbyz
-
+google-site-verification: vqnW7aupKCfw2bzJr4z3Iz52Uvf3yVW6M1qQoEzP5-A
 lang: ko
 
 # Build settings
