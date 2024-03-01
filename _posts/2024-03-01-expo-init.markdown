@@ -1,0 +1,146 @@
+---
+layout: post
+title:  "Expo, 프로젝트 생성부터 초기 세팅"
+date:   2024-02-21 19:39:00 +0900
+categories: Expo
+---
+
+## Expo 초기 프로젝트 생성하기
+
+```bash
+npx create-expo-app ProjectName
+```
+
+`npx`는 로컬에 설치되어 있지 않은 npm 패키지를 실행할 수 있습니다. 자동으로 설치되고 삭제됨으로 항상 최신 버전의 패키지로 명령어를 실행할 수 있습니다. 이를 `npx` 없이 실행하려면 `$ npm install -g create-expo-app` 명령어로 기본 로컬 환경에 글로벌로 설치하고 실행할 수 있지만, 빠르게 변하는 생태계 속에서 `npx`는 최고의 선택이 될 수 있다.
+
+## TypeScript 적용하기
+
+`$ npx create-expo-app ProjectName`으로 생성된 프로젝트 파일은 기본적으로 `.js` 파일로 생성된다. **TypeScript**를 적용시키는 방법을 따라해보자.
+
+```bash
+npm install --save-dev typescript @types/react @types/react-native @types/react-dom
+```
+
+### TypeScript 설정 파일 생성
+
+프로젝트의 루트 디렉토리에 `tsconfig.json` 파일을 생성하고 아래 내용을 붙여 넣어준다. (이미 파일이 존재하면 그것을 사용) 해당 파일은 TypeScript 컴파일러에게 프로젝트를 어떻게 컴파일할지 알려준다.
+
+```json
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-native",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
+    "target": "esnext"
+  },
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
+}
+```
+
+### 파일 확장자 변경하기
+
+처음 프로젝트를 생성하면 `.js` 파일 확장자로 파일이 생성돼 있기 때문에 `.ts` 또는 `.tsx` 파일 확장자로 변경해준다.
+
+- `.ts`: React 컴포넌트가 없는 순수 TypeScript 파일
+- `.tsx`: React 컴포넌트가 있는 경우
+
+## 자동 코드포맷터 적용하기
+
+일관된 컨벤션을 유지하기 위해 **Prettier**를 사용해보자. 세미콜론 추가, 코드 줄바꿈, 단일 인용부호와 이중 인용부호 간 전환 등을 자동으로 처리해준다.
+
+```bash
+npm install --save-dev prettier
+```
+
+### Prettier 설정 파일 생성
+
+루트 디렉토리에 `.prettierrc` 파일을 생성하고 아래의 파일 내용을 넣어주자.
+
+```json
+{
+  "semi": true,
+  "singleQuote": true
+}
+```
+
+입 맛에 맞게 커스텀 할 수 있고, 사용중인 IDE(PHPStorm, VSCode)에서 파일 저장시 **Prettier**가 자동으로 실행되게 할 수 있다. 이 내용은 따로 추가하지 않겠음.
+
+## 코드 품질 도구 적용하기
+
+**ESLint**는 코드에서 발견된 패턴을 식별하여 문제를 보고해준다. A라는 코드를 B라는 코드로 변경할 수 있다면 그 부분을 IDE를 통해서 알 수 있다. (당연히 B코드의 품질이 더 좋은 코드를 추천해준다)
+
+```bash
+npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
+
+루트 디렉토리에 `.eslintrc` 파일을 생성해고 아래의 내용을 넣어준다.
+
+```json
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"]
+  }
+}
+```
+
+## 절대 경로로 컴포넌트 import 하기
+
+React 컴포넌트를 작성하다보면 `import Comp from '../components/Comp`와 같은 import 구문이 작성된다. 보기도 싫고 유지보수도 귀찮아진다. 이 부분을 절대경로로(예; `import Comp from @/components/Comp`) 변경해보자.
+
+```bash
+npm install --save-dev babel-plugin-module-resolver
+```
+
+루트 디렉토리에 존재하는 `babel.config.js` 파일을 열고 다음과 같이 수정해주자.
+
+```js
+module.exports = function (api) {
+  api.cache(true);
+
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: [
+      [
+        'module-resolver',
+        {
+          root: ['./'],
+          alias: {
+            '@': './src',
+          },
+        },
+      ],
+    ],
+  };
+};
+```
+
+`return` 구문에 `plugins` 속성이 추가되었다. 그리고 이를 **Typescript**가 컴파일에 활용할 수 있게 `tsconfig.json` 파일을 열고 아래 내용을 참조하여 `paths` 속성을 추가하자.
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+## 정리
+
+이렇게 하면 기본적으로 프로젝트를 진행하는 동안 유용한 패키지들이 설치되었다. **Prettier**나 **ESLint** 같은 경우는 반드시 IDE에 설정을 통하여 파일이 저장될때 **실행**되게 세팅해 놓아야 유용하다.
