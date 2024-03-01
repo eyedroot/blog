@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-02-21T10:39:58+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">프롬프트 엔지니어링 작성하기</title><link href="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html" rel="alternate" type="text/html" title="프롬프트 엔지니어링 작성하기" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering</id><content type="html" xml:base="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html"><![CDATA[<h2 id="개요">개요</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-03-01T11:08:43+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">프롬프트 엔지니어링 작성하기</title><link href="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html" rel="alternate" type="text/html" title="프롬프트 엔지니어링 작성하기" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering</id><content type="html" xml:base="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html"><![CDATA[<h2 id="개요">개요</h2>
 
 <p>요즘 프롬프트 엔지니어링(Prompt Engineering)이라는 단어가 많이 보인다. LLM(Large Language Model)들이 우후죽순으로 생성되면서 프롬프트 작성능력이 그 만큼 중요하게 대두되고 있는 이유이다. LLM 모델들은 대게 사람이 만들어 놓고 인터넷에 게시된 자료들을 기반으로 학습된다. 그 이유에서 같은 주제에 내용이라 하더라도 더 깊이 있는 정보가 있는 자료가 있는 반면에 그렇지 않은 자료들과 결합해서 LLM 모델들이 데이터를 정제하여 사용자가 원하는 자료들을 잘 가공하여 보여주어야 한다. 이 모든 것에 해답은 프롬프트에 있다는 얘기가 된다.</p>
 
@@ -83,7 +83,137 @@ A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
 
 <p>아직까지 수 많은 데이터를 학습한 LLM 모델이 정확하고 좋은 양질의 데이터를 출력할 수 있는지 프롬프트 관련 연구는 계속 진행 중이라고 한다. 결국 프롬프트 기반으로 LLM이 데이터를 찾는 것이니 만큼 양질의 프롬프트를 작성하는 것이 좋은 정보를 빨리 찾는 행위가 될 것이다.</p>
 
-<p>기본적인 뼈대(페르소나, 예시, 보상하기)는 갖추고 그에 맞게 우리가 커뮤니티의 내가 궁금한 정보에 대해서 질문을 해봤던 경험들을 토대로 상대방이 조금 더 이해하기 쉽게 의미있는 프롬프트 작성이 가장 중요하다고 생각이 든다.</p>]]></content><author><name></name></author><category term="AI" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">cURL, MessagePack 바이너리 전송하기</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="cURL, MessagePack 바이너리 전송하기" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
+<p>기본적인 뼈대(페르소나, 예시, 보상하기)는 갖추고 그에 맞게 우리가 커뮤니티의 내가 궁금한 정보에 대해서 질문을 해봤던 경험들을 토대로 상대방이 조금 더 이해하기 쉽게 의미있는 프롬프트 작성이 가장 중요하다고 생각이 든다.</p>]]></content><author><name></name></author><category term="AI" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">Expo, 프로젝트 생성부터 초기 세팅</title><link href="https://binbyz.github.io//blog/expo/2024/02/21/expo-init.html" rel="alternate" type="text/html" title="Expo, 프로젝트 생성부터 초기 세팅" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/expo/2024/02/21/expo-init</id><content type="html" xml:base="https://binbyz.github.io//blog/expo/2024/02/21/expo-init.html"><![CDATA[<h2 id="expo-초기-프로젝트-생성하기">Expo 초기 프로젝트 생성하기</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx create-expo-app ProjectName
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">npx</code>는 로컬에 설치되어 있지 않은 npm 패키지를 실행할 수 있습니다. 자동으로 설치되고 삭제됨으로 항상 최신 버전의 패키지로 명령어를 실행할 수 있습니다. 이를 <code class="language-plaintext highlighter-rouge">npx</code> 없이 실행하려면 <code class="language-plaintext highlighter-rouge">$ npm install -g create-expo-app</code> 명령어로 기본 로컬 환경에 글로벌로 설치하고 실행할 수 있지만, 빠르게 변하는 생태계 속에서 <code class="language-plaintext highlighter-rouge">npx</code>는 최고의 선택이 될 수 있다.</p>
+
+<h2 id="typescript-적용하기">TypeScript 적용하기</h2>
+
+<p><code class="language-plaintext highlighter-rouge">$ npx create-expo-app ProjectName</code>으로 생성된 프로젝트 파일은 기본적으로 <code class="language-plaintext highlighter-rouge">.js</code> 파일로 생성된다. <strong>TypeScript</strong>를 적용시키는 방법을 따라해보자.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> typescript @types/react @types/react-native @types/react-dom
+</code></pre></div></div>
+
+<h3 id="typescript-설정-파일-생성">TypeScript 설정 파일 생성</h3>
+
+<p>프로젝트의 루트 디렉토리에 <code class="language-plaintext highlighter-rouge">tsconfig.json</code> 파일을 생성하고 아래 내용을 붙여 넣어준다. (이미 파일이 존재하면 그것을 사용) 해당 파일은 TypeScript 컴파일러에게 프로젝트를 어떻게 컴파일할지 알려준다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"allowJs"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"allowSyntheticDefaultImports"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"esModuleInterop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"isolatedModules"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"jsx"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lib"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"dom"</span><span class="p">,</span><span class="w"> </span><span class="s2">"esnext"</span><span class="p">],</span><span class="w">
+    </span><span class="nl">"moduleResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"noEmit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"strict"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"esnext"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"node_modules"</span><span class="p">,</span><span class="w"> </span><span class="s2">"babel.config.js"</span><span class="p">,</span><span class="w"> </span><span class="s2">"metro.config.js"</span><span class="p">,</span><span class="w"> </span><span class="s2">"jest.config.js"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="파일-확장자-변경하기">파일 확장자 변경하기</h3>
+
+<p>처음 프로젝트를 생성하면 <code class="language-plaintext highlighter-rouge">.js</code> 파일 확장자로 파일이 생성돼 있기 때문에 <code class="language-plaintext highlighter-rouge">.ts</code> 또는 <code class="language-plaintext highlighter-rouge">.tsx</code> 파일 확장자로 변경해준다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.ts</code>: React 컴포넌트가 없는 순수 TypeScript 파일</li>
+  <li><code class="language-plaintext highlighter-rouge">.tsx</code>: React 컴포넌트가 있는 경우</li>
+</ul>
+
+<h2 id="자동-코드포맷터-적용하기">자동 코드포맷터 적용하기</h2>
+
+<p>일관된 컨벤션을 유지하기 위해 <strong>Prettier</strong>를 사용해보자. 세미콜론 추가, 코드 줄바꿈, 단일 인용부호와 이중 인용부호 간 전환 등을 자동으로 처리해준다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> prettier
+</code></pre></div></div>
+
+<h3 id="prettier-설정-파일-생성">Prettier 설정 파일 생성</h3>
+
+<p>루트 디렉토리에 <code class="language-plaintext highlighter-rouge">.prettierrc</code> 파일을 생성하고 아래의 파일 내용을 넣어주자.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"semi"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"singleQuote"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>입 맛에 맞게 커스텀 할 수 있고, 사용중인 IDE(PHPStorm, VSCode)에서 파일 저장시 <strong>Prettier</strong>가 자동으로 실행되게 할 수 있다. 이 내용은 따로 추가하지 않겠음.</p>
+
+<h2 id="코드-품질-도구-적용하기">코드 품질 도구 적용하기</h2>
+
+<p><strong>ESLint</strong>는 코드에서 발견된 패턴을 식별하여 문제를 보고해준다. A라는 코드를 B라는 코드로 변경할 수 있다면 그 부분을 IDE를 통해서 알 수 있다. (당연히 B코드의 품질이 더 좋은 코드를 추천해준다)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+</code></pre></div></div>
+
+<p>루트 디렉토리에 <code class="language-plaintext highlighter-rouge">.eslintrc</code> 파일을 생성해고 아래의 내용을 넣어준다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"parser"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@typescript-eslint/parser"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"extends"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"plugin:@typescript-eslint/recommended"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"@typescript-eslint"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"semi"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"always"</span><span class="p">],</span><span class="w">
+    </span><span class="nl">"quotes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"single"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="절대-경로로-컴포넌트-import-하기">절대 경로로 컴포넌트 import 하기</h2>
+
+<p>React 컴포넌트를 작성하다보면 <code class="language-plaintext highlighter-rouge">import Comp from '../components/Comp</code>와 같은 import 구문이 작성된다. 보기도 싫고 유지보수도 귀찮아진다. 이 부분을 절대경로로(예; <code class="language-plaintext highlighter-rouge">import Comp from @/components/Comp</code>) 변경해보자.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> babel-plugin-module-resolver
+</code></pre></div></div>
+
+<p>루트 디렉토리에 존재하는 <code class="language-plaintext highlighter-rouge">babel.config.js</code> 파일을 열고 다음과 같이 수정해주자.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nf">function </span><span class="p">(</span><span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">api</span><span class="p">.</span><span class="nf">cache</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">presets</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">babel-preset-expo</span><span class="dl">'</span><span class="p">],</span>
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span>
+        <span class="dl">'</span><span class="s1">module-resolver</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="na">root</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">./</span><span class="dl">'</span><span class="p">],</span>
+          <span class="na">alias</span><span class="p">:</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">@</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span><span class="p">,</span>
+          <span class="p">},</span>
+        <span class="p">},</span>
+      <span class="p">],</span>
+    <span class="p">],</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">return</code> 구문에 <code class="language-plaintext highlighter-rouge">plugins</code> 속성이 추가되었다. 그리고 이를 <strong>Typescript</strong>가 컴파일에 활용할 수 있게 <code class="language-plaintext highlighter-rouge">tsconfig.json</code> 파일을 열고 아래 내용을 참조하여 <code class="language-plaintext highlighter-rouge">paths</code> 속성을 추가하자.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"@/*"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/*"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="정리">정리</h2>
+
+<p>이렇게 하면 기본적으로 프로젝트를 진행하는 동안 유용한 패키지들이 설치되었다. <strong>Prettier</strong>나 <strong>ESLint</strong> 같은 경우는 반드시 IDE에 설정을 통하여 파일이 저장될때 <strong>실행</strong>되게 세팅해 놓아야 유용하다.</p>]]></content><author><name></name></author><category term="Expo" /><summary type="html"><![CDATA[Expo 초기 프로젝트 생성하기]]></summary></entry><entry><title type="html">cURL, MessagePack 바이너리 전송하기</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="cURL, MessagePack 바이너리 전송하기" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
 
 <p>라라벨 애플리케이션에서 <code class="language-plaintext highlighter-rouge">curl</code>를 통해 대량의 <code class="language-plaintext highlighter-rouge">json_encode</code>된 데이터를 전송하는 케이스가 있었다. 객체나 배열 자체를 클라이언트에서 Inspect 할 수 있는 오픈소스 라이브러리(<a href="https://phpgg.kr/">phpgg.kr</a>)인데 가령 객체 자체차 크거나 여러개의 객체가 중첩된 경우 메모리 할당량을 초과하여 발생하는 문제였다. 라라벨의 <code class="language-plaintext highlighter-rouge">dump()</code>, <code class="language-plaintext highlighter-rouge">dd()</code> 헬퍼 함수들은 이런 문제를 해결하기 위해 중첩된 객체의 사이즈가 너무 크면 잘라서 무효화 시키는 방법으로 데이터를 보여주었다. 나는 최대한 있는 그대로 내가 보고싶은 데이터를 잘림 없이 보여주고 싶었다.</p>
 
