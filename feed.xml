@@ -1,89 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-03-01T11:14:05+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">프롬프트 엔지니어링 작성하기</title><link href="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html" rel="alternate" type="text/html" title="프롬프트 엔지니어링 작성하기" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering</id><content type="html" xml:base="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html"><![CDATA[<h2 id="개요">개요</h2>
-
-<p>요즘 프롬프트 엔지니어링(Prompt Engineering)이라는 단어가 많이 보인다. LLM(Large Language Model)들이 우후죽순으로 생성되면서 프롬프트 작성능력이 그 만큼 중요하게 대두되고 있는 이유이다. LLM 모델들은 대게 사람이 만들어 놓고 인터넷에 게시된 자료들을 기반으로 학습된다. 그 이유에서 같은 주제에 내용이라 하더라도 더 깊이 있는 정보가 있는 자료가 있는 반면에 그렇지 않은 자료들과 결합해서 LLM 모델들이 데이터를 정제하여 사용자가 원하는 자료들을 잘 가공하여 보여주어야 한다. 이 모든 것에 해답은 프롬프트에 있다는 얘기가 된다.</p>
-
-<p>많은 프롬프트 엔지니어링 영상과 글들을 보았고, 그 자료들은 결국엔 중복된 내용들에 대해서 다루고 있어 이에 대해 한 번 정리해 놓고자 글을 작성한다.</p>
-
-<h2 id="역할-정하기페르소나-persona">역할 정하기(페르소나, Persona)</h2>
-
-<p>가장 기본이다. 많은 자료들이 페르소나라는 단어로 내용을 소개해준다. 원리는 간단하다. LLM 모델에 내 질문에 어떤 주제에 맞춰 답변을 해주어야 하는지 주제를 제한시켜주는 것이다. 거기에 특정 분야에 “전문가”라는 단어를 투영시켜 LLM 모델이 수 많은 학습된 데이터에서 조금 더 특화된 데이를 찾아 답변을 해줄 수 있도록 제한한다. 예를 들면 다음과 같다.</p>
-
-<h3 id="페르소나-예시">페르소나 예시</h3>
-
-<ul>
-  <li>너는 라라벨(Laravel) 프레임워크에 통달한 전문 개발자야.</li>
-  <li>너는 유럽 여행 전문 가이드야.</li>
-  <li>너는 수 많은 히트곡을 작성한 작곡가야.</li>
-</ul>
-
-<p>이렇게 페르소나를 설정해 줌으로써 수 많은 학습된 데이터 카테고리에서 특정 카테고리로 데이터의 범위를 완전히 좁혀준다.</p>
-
-<h2 id="예시-넣어주기few-shot-zero-shot">예시 넣어주기(Few Shot, Zero Shot)</h2>
-
-<p>두 번째는 LLM 모델이 어떻게 답변을 해주어야 하는지 항상 예시를 넣어주어야 한다. 여기서 Few-Shot은 2가지 이상의 예시를 프로픔트에 작성해 줌으로써 LLM 모델이 더 쉽게 이해도록 돕는 것이고, Zero-shot은 한 가지의 예시문만 넣어준다는 뜻이된다. 바로 쉽게 바로 예시를 가보자.</p>
-
-<h3 id="zero-shot-예시">Zero-Shot 예시</h3>
-
-<blockquote>
-  <p>다음의 예시처럼 답변해줘.</p>
-
-  <p>Q. 웹 개발자가 되기 위해서는 어떤 단계들을 거치면서 학습을 해야하는지 학습 가이드라인을 만들어줘.
-A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
-  <ol>
-    <li>HTML 마크업 배우기</li>
-    <li>스크립트 언어 택하여 배우기</li>
-    <li>Database 배우기</li>
-  </ol>
-</blockquote>
-
-<p>이 처럼 받고 싶은 형태의 답변을 예시로 작성하여 프롬프트로 제공해 줌으로써 조금 더 규격화된 답변을 받을 수 있다. 실제 예시에 <code class="language-plaintext highlighter-rouge">JSON</code> 포맷으로 예시로 보여주고 프롬프트 예시를 알려주면 답변은 <code class="language-plaintext highlighter-rouge">JSON</code> 형태로 나오게된다.</p>
-
-<h2 id="의미있는-예시를-작성하기추론-시키기">의미있는 예시를 작성하기(추론 시키기)</h2>
-
-<p>예시를 작성한다고 하더라도 실제로 실생활 또는 사실 내용 기반으로 질문과 답변을 프롬프트에 입력해주어야 LLM 모델이 그 의미를 파악하고 이 후의 답변도 직접 추론과정을 거치며 조금 더 명확한 답을 제공해 줄 수 있다. 예시를 너무 간단하게 작성하지 말라는 얘기가 된다.</p>
-
-<p>예를 들면, 위의 Zero-Shot 예시 답변에 살을 더 붙이는 것이다. 위에는 단순히 1, 2, 3번으로 나열만 되어 있는데 그 옆에 1번으로 HTML 마크업을 배우라고 한 이유에 대해서 작성해주자. 다음과 같다.</p>
-
-<h3 id="추론-예시">추론 예시</h3>
-
-<blockquote>
-  <p>다음의 예시처럼 답변해줘.</p>
-
-  <p>Q. 웹 개발자가 되기 위해서는 어떤 단계들을 거치면서 학습을 해야하는지 학습 가이드라인을 만들어줘.
-A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
-  <ol>
-    <li>HTML 마크업 배우기
-      <ul>
-        <li>HTML은 모든 웹 페이지의 뼈대를 이루는 기본입니다. 모든 웹 페이지는 결국엔 HTML로 구성되기 때문에 가장 먼저 학습하는 것이 좋습니다.</li>
-      </ul>
-    </li>
-    <li>스크립트 언어 택하여 배우기
-      <ul>
-        <li>컴파일 언어보다 보다 쉽게 배움에 접근할 수 있습니다. … 이후에 내가 원하는 기술 스택을 선택 후 기술을 변경해도 충분합니다.</li>
-      </ul>
-    </li>
-    <li>Database 배우기</li>
-  </ol>
-</blockquote>
-
-<p>이런식으로 예시에 살을 붙여주고 LLM 모델이 조금 더 의미있고 추론 가능한 답변을 할 수 있도록 프롬프트를 작성한다.</p>
-
-<h2 id="보상하기">보상하기</h2>
-
-<p>사실 이 부분이 아직까지 나에겐 가장 의아한 부분이긴 하다. 모든 질문은 의미가 있고 질문자에게는 절실하다는 기본 가정이 되어야 하는데 프롬프트 마지막에 “이 질문은 나에게 가장 중요하니깐 너를 통해 해당 문제가 해결되면 소정의 금액을 보상해 줄게”와 같은 보상형식의 문장을 꼭 넣으라고들 추천한다. 그래야 실제 LLM 모델을 작동시킬 때 조금이라도 더 양질의 데이터를 찾아 답변할 수 있게 의미를 전달시키는 행위가 된다고 한다. 가령 내가 직접본 프롬프트 관련 영상들은 아래의 문장들을 마지막에 넣길 조언하고 있다.</p>
-
-<h3 id="보상-예시">보상 예시</h3>
-
-<ul>
-  <li>“Let’s think step by step”</li>
-  <li>“I’ll pay you $500”</li>
-</ul>
-
-<h2 id="정리">정리</h2>
-
-<p>아직까지 수 많은 데이터를 학습한 LLM 모델이 정확하고 좋은 양질의 데이터를 출력할 수 있는지 프롬프트 관련 연구는 계속 진행 중이라고 한다. 결국 프롬프트 기반으로 LLM이 데이터를 찾는 것이니 만큼 양질의 프롬프트를 작성하는 것이 좋은 정보를 빨리 찾는 행위가 될 것이다.</p>
-
-<p>기본적인 뼈대(페르소나, 예시, 보상하기)는 갖추고 그에 맞게 우리가 커뮤니티의 내가 궁금한 정보에 대해서 질문을 해봤던 경험들을 토대로 상대방이 조금 더 이해하기 쉽게 의미있는 프롬프트 작성이 가장 중요하다고 생각이 든다.</p>]]></content><author><name></name></author><category term="AI" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">Expo, 프로젝트 생성부터 초기 세팅</title><link href="https://binbyz.github.io//blog/expo/2024/02/21/expo-init.html" rel="alternate" type="text/html" title="Expo, 프로젝트 생성부터 초기 세팅" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/expo/2024/02/21/expo-init</id><content type="html" xml:base="https://binbyz.github.io//blog/expo/2024/02/21/expo-init.html"><![CDATA[<h2 id="expo-초기-프로젝트-생성하기">Expo 초기 프로젝트 생성하기</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://binbyz.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://binbyz.github.io//blog/" rel="alternate" type="text/html" hreflang="ko" /><updated>2024-03-01T11:15:34+00:00</updated><id>https://binbyz.github.io//blog/feed.xml</id><title type="html">byzz’s programming note</title><subtitle>비즈 개발 노트</subtitle><entry><title type="html">Expo, 프로젝트 생성부터 초기 세팅</title><link href="https://binbyz.github.io//blog/expo/2024/03/01/expo-init.html" rel="alternate" type="text/html" title="Expo, 프로젝트 생성부터 초기 세팅" /><published>2024-03-01T11:14:00+00:00</published><updated>2024-03-01T11:14:00+00:00</updated><id>https://binbyz.github.io//blog/expo/2024/03/01/expo-init</id><content type="html" xml:base="https://binbyz.github.io//blog/expo/2024/03/01/expo-init.html"><![CDATA[<h2 id="expo-초기-프로젝트-생성하기">Expo 초기 프로젝트 생성하기</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx create-expo-app ProjectName
 </code></pre></div></div>
@@ -217,7 +132,92 @@ A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
 
 <h2 id="정리">정리</h2>
 
-<p>이렇게 하면 기본적으로 프로젝트를 진행하는 동안 유용한 패키지들이 설치되었다. <strong>Prettier</strong>나 <strong>ESLint</strong> 같은 경우는 반드시 IDE에 설정을 통하여 파일이 저장될때 <strong>실행</strong>되게 세팅해 놓아야 유용하다.</p>]]></content><author><name></name></author><category term="Expo" /><summary type="html"><![CDATA[Expo 초기 프로젝트 생성하기]]></summary></entry><entry><title type="html">cURL, MessagePack 바이너리 전송하기</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="cURL, MessagePack 바이너리 전송하기" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
+<p>이렇게 하면 기본적으로 프로젝트를 진행하는 동안 유용한 패키지들이 설치되었다. <strong>Prettier</strong>나 <strong>ESLint</strong> 같은 경우는 반드시 IDE에 설정을 통하여 파일이 저장될때 <strong>실행</strong>되게 세팅해 놓아야 유용하다.</p>]]></content><author><name></name></author><category term="Expo" /><summary type="html"><![CDATA[Expo 초기 프로젝트 생성하기]]></summary></entry><entry><title type="html">프롬프트 엔지니어링 작성하기</title><link href="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html" rel="alternate" type="text/html" title="프롬프트 엔지니어링 작성하기" /><published>2024-02-21T10:39:00+00:00</published><updated>2024-02-21T10:39:00+00:00</updated><id>https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering</id><content type="html" xml:base="https://binbyz.github.io//blog/ai/2024/02/21/prompt-engineering.html"><![CDATA[<h2 id="개요">개요</h2>
+
+<p>요즘 프롬프트 엔지니어링(Prompt Engineering)이라는 단어가 많이 보인다. LLM(Large Language Model)들이 우후죽순으로 생성되면서 프롬프트 작성능력이 그 만큼 중요하게 대두되고 있는 이유이다. LLM 모델들은 대게 사람이 만들어 놓고 인터넷에 게시된 자료들을 기반으로 학습된다. 그 이유에서 같은 주제에 내용이라 하더라도 더 깊이 있는 정보가 있는 자료가 있는 반면에 그렇지 않은 자료들과 결합해서 LLM 모델들이 데이터를 정제하여 사용자가 원하는 자료들을 잘 가공하여 보여주어야 한다. 이 모든 것에 해답은 프롬프트에 있다는 얘기가 된다.</p>
+
+<p>많은 프롬프트 엔지니어링 영상과 글들을 보았고, 그 자료들은 결국엔 중복된 내용들에 대해서 다루고 있어 이에 대해 한 번 정리해 놓고자 글을 작성한다.</p>
+
+<h2 id="역할-정하기페르소나-persona">역할 정하기(페르소나, Persona)</h2>
+
+<p>가장 기본이다. 많은 자료들이 페르소나라는 단어로 내용을 소개해준다. 원리는 간단하다. LLM 모델에 내 질문에 어떤 주제에 맞춰 답변을 해주어야 하는지 주제를 제한시켜주는 것이다. 거기에 특정 분야에 “전문가”라는 단어를 투영시켜 LLM 모델이 수 많은 학습된 데이터에서 조금 더 특화된 데이를 찾아 답변을 해줄 수 있도록 제한한다. 예를 들면 다음과 같다.</p>
+
+<h3 id="페르소나-예시">페르소나 예시</h3>
+
+<ul>
+  <li>너는 라라벨(Laravel) 프레임워크에 통달한 전문 개발자야.</li>
+  <li>너는 유럽 여행 전문 가이드야.</li>
+  <li>너는 수 많은 히트곡을 작성한 작곡가야.</li>
+</ul>
+
+<p>이렇게 페르소나를 설정해 줌으로써 수 많은 학습된 데이터 카테고리에서 특정 카테고리로 데이터의 범위를 완전히 좁혀준다.</p>
+
+<h2 id="예시-넣어주기few-shot-zero-shot">예시 넣어주기(Few Shot, Zero Shot)</h2>
+
+<p>두 번째는 LLM 모델이 어떻게 답변을 해주어야 하는지 항상 예시를 넣어주어야 한다. 여기서 Few-Shot은 2가지 이상의 예시를 프로픔트에 작성해 줌으로써 LLM 모델이 더 쉽게 이해도록 돕는 것이고, Zero-shot은 한 가지의 예시문만 넣어준다는 뜻이된다. 바로 쉽게 바로 예시를 가보자.</p>
+
+<h3 id="zero-shot-예시">Zero-Shot 예시</h3>
+
+<blockquote>
+  <p>다음의 예시처럼 답변해줘.</p>
+
+  <p>Q. 웹 개발자가 되기 위해서는 어떤 단계들을 거치면서 학습을 해야하는지 학습 가이드라인을 만들어줘.
+A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
+  <ol>
+    <li>HTML 마크업 배우기</li>
+    <li>스크립트 언어 택하여 배우기</li>
+    <li>Database 배우기</li>
+  </ol>
+</blockquote>
+
+<p>이 처럼 받고 싶은 형태의 답변을 예시로 작성하여 프롬프트로 제공해 줌으로써 조금 더 규격화된 답변을 받을 수 있다. 실제 예시에 <code class="language-plaintext highlighter-rouge">JSON</code> 포맷으로 예시로 보여주고 프롬프트 예시를 알려주면 답변은 <code class="language-plaintext highlighter-rouge">JSON</code> 형태로 나오게된다.</p>
+
+<h2 id="의미있는-예시를-작성하기추론-시키기">의미있는 예시를 작성하기(추론 시키기)</h2>
+
+<p>예시를 작성한다고 하더라도 실제로 실생활 또는 사실 내용 기반으로 질문과 답변을 프롬프트에 입력해주어야 LLM 모델이 그 의미를 파악하고 이 후의 답변도 직접 추론과정을 거치며 조금 더 명확한 답을 제공해 줄 수 있다. 예시를 너무 간단하게 작성하지 말라는 얘기가 된다.</p>
+
+<p>예를 들면, 위의 Zero-Shot 예시 답변에 살을 더 붙이는 것이다. 위에는 단순히 1, 2, 3번으로 나열만 되어 있는데 그 옆에 1번으로 HTML 마크업을 배우라고 한 이유에 대해서 작성해주자. 다음과 같다.</p>
+
+<h3 id="추론-예시">추론 예시</h3>
+
+<blockquote>
+  <p>다음의 예시처럼 답변해줘.</p>
+
+  <p>Q. 웹 개발자가 되기 위해서는 어떤 단계들을 거치면서 학습을 해야하는지 학습 가이드라인을 만들어줘.
+A. 다음은 웹 개발자가 되기 위한 학습가이드 라인입니다.</p>
+  <ol>
+    <li>HTML 마크업 배우기
+      <ul>
+        <li>HTML은 모든 웹 페이지의 뼈대를 이루는 기본입니다. 모든 웹 페이지는 결국엔 HTML로 구성되기 때문에 가장 먼저 학습하는 것이 좋습니다.</li>
+      </ul>
+    </li>
+    <li>스크립트 언어 택하여 배우기
+      <ul>
+        <li>컴파일 언어보다 보다 쉽게 배움에 접근할 수 있습니다. … 이후에 내가 원하는 기술 스택을 선택 후 기술을 변경해도 충분합니다.</li>
+      </ul>
+    </li>
+    <li>Database 배우기</li>
+  </ol>
+</blockquote>
+
+<p>이런식으로 예시에 살을 붙여주고 LLM 모델이 조금 더 의미있고 추론 가능한 답변을 할 수 있도록 프롬프트를 작성한다.</p>
+
+<h2 id="보상하기">보상하기</h2>
+
+<p>사실 이 부분이 아직까지 나에겐 가장 의아한 부분이긴 하다. 모든 질문은 의미가 있고 질문자에게는 절실하다는 기본 가정이 되어야 하는데 프롬프트 마지막에 “이 질문은 나에게 가장 중요하니깐 너를 통해 해당 문제가 해결되면 소정의 금액을 보상해 줄게”와 같은 보상형식의 문장을 꼭 넣으라고들 추천한다. 그래야 실제 LLM 모델을 작동시킬 때 조금이라도 더 양질의 데이터를 찾아 답변할 수 있게 의미를 전달시키는 행위가 된다고 한다. 가령 내가 직접본 프롬프트 관련 영상들은 아래의 문장들을 마지막에 넣길 조언하고 있다.</p>
+
+<h3 id="보상-예시">보상 예시</h3>
+
+<ul>
+  <li>“Let’s think step by step”</li>
+  <li>“I’ll pay you $500”</li>
+</ul>
+
+<h2 id="정리">정리</h2>
+
+<p>아직까지 수 많은 데이터를 학습한 LLM 모델이 정확하고 좋은 양질의 데이터를 출력할 수 있는지 프롬프트 관련 연구는 계속 진행 중이라고 한다. 결국 프롬프트 기반으로 LLM이 데이터를 찾는 것이니 만큼 양질의 프롬프트를 작성하는 것이 좋은 정보를 빨리 찾는 행위가 될 것이다.</p>
+
+<p>기본적인 뼈대(페르소나, 예시, 보상하기)는 갖추고 그에 맞게 우리가 커뮤니티의 내가 궁금한 정보에 대해서 질문을 해봤던 경험들을 토대로 상대방이 조금 더 이해하기 쉽게 의미있는 프롬프트 작성이 가장 중요하다고 생각이 든다.</p>]]></content><author><name></name></author><category term="AI" /><summary type="html"><![CDATA[개요]]></summary></entry><entry><title type="html">cURL, MessagePack 바이너리 전송하기</title><link href="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html" rel="alternate" type="text/html" title="cURL, MessagePack 바이너리 전송하기" /><published>2024-02-18T10:11:00+00:00</published><updated>2024-02-18T10:11:00+00:00</updated><id>https://binbyz.github.io//blog/laravel/2024/02/18/msgpack</id><content type="html" xml:base="https://binbyz.github.io//blog/laravel/2024/02/18/msgpack.html"><![CDATA[<h2 id="개요">개요</h2>
 
 <p>라라벨 애플리케이션에서 <code class="language-plaintext highlighter-rouge">curl</code>를 통해 대량의 <code class="language-plaintext highlighter-rouge">json_encode</code>된 데이터를 전송하는 케이스가 있었다. 객체나 배열 자체를 클라이언트에서 Inspect 할 수 있는 오픈소스 라이브러리(<a href="https://phpgg.kr/">phpgg.kr</a>)인데 가령 객체 자체차 크거나 여러개의 객체가 중첩된 경우 메모리 할당량을 초과하여 발생하는 문제였다. 라라벨의 <code class="language-plaintext highlighter-rouge">dump()</code>, <code class="language-plaintext highlighter-rouge">dd()</code> 헬퍼 함수들은 이런 문제를 해결하기 위해 중첩된 객체의 사이즈가 너무 크면 잘라서 무효화 시키는 방법으로 데이터를 보여주었다. 나는 최대한 있는 그대로 내가 보고싶은 데이터를 잘림 없이 보여주고 싶었다.</p>
 
