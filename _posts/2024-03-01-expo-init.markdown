@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Expo, 프로젝트 생성부터 초기 세팅"
-date:   2024-02-21 19:39:00 +0900
+date:   2024-03-01 20:14:00 +0900
 categories: Expo
 ---
 
