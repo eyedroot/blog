@@ -11,7 +11,7 @@ categories: Expo
 npx create-expo-app ProjectName
 ```
 
-`npx`는 로컬에 설치되어 있지 않은 npm 패키지를 실행할 수 있습니다. 자동으로 설치되고 삭제됨으로 항상 최신 버전의 패키지로 명령어를 실행할 수 있습니다. 이를 `npx` 없이 실행하려면 `$ npm install -g create-expo-app` 명령어로 기본 로컬 환경에 글로벌로 설치하고 실행할 수 있지만, 빠르게 변하는 생태계 속에서 `npx`는 최고의 선택이 될 수 있다.
+`npx`는 로컬에 설치되어 있지 않은 npm 패키지를 실행할 수 있게 도와준다.(로컬에 `$ npm install`을 통해 설치하지 않아도 실행이 가능하다는 의미) 자동으로 설치되고 삭제됨으로 항상 최신 버전의 패키지로 명령어를 실행할 수 있게한다. 이를 `npx` 없이 실행하려면 `$ npm install -g create-expo-app` 명령어로 기본 로컬 환경에 글로벌로 설치하고 실행할 수 있지만, 빠르게 변하는 생태계 속에서 `npx`는 최고의 선택이 될 수 있다.
 
 ## TypeScript 적용하기
 
@@ -20,6 +20,8 @@ npx create-expo-app ProjectName
 ```bash
 npm install --save-dev typescript @types/react @types/react-native @types/react-dom
 ```
+
+- **babel**: Babel은 자바스크립트 코드를 변환하는 툴체인(toolchain)이다. 주로 최신 버전의 JavaScript(ES6 이상) 코드를 이전 버전의 JavaScript(ES5)로 변환하여, 아직 최신 JavaScript 문법을 지원하지 않는 오래된 브라우저나 환경에서도 코드가 실행될 수 있게 해준다. (웹 기준)
 
 ### TypeScript 설정 파일 생성
 
