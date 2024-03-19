@@ -22,10 +22,10 @@ title: "byzz's programming note"
 email: eyedroot@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   비즈 개발 노트
-baseurl: "/blog" # the subpath of your site, e.g. /blog
-url: "https://binbyz.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://pages.eyedroot.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: eyedroot
-github_username:  binbyz
+github_username:  eyedroot
 google_site_verification: vqnW7aupKCfw2bzJr4z3Iz52Uvf3yVW6M1qQoEzP5-A
 lang: ko
 
